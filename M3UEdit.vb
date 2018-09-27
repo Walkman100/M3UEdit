@@ -1,3 +1,8 @@
+Option Explicit On
+Option Strict On
+Option Compare Binary
+Option Infer On
+
 Public Partial Class M3UEdit
     Public Sub New()
         Me.InitializeComponent()
@@ -24,13 +29,21 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub lstFiles_ColumnClick(sender As Object, e As ColumnClickEventArgs) Handles lstFiles.ColumnClick
-        
+        If e.Column = 0 Then
+            lstFiles.Sorting = DirectCast(IIf(lstFiles.Sorting = SortOrder.Ascending, SortOrder.Descending, SortOrder.Ascending), SortOrder)
+        Else
+            'lstFiles.Sort(e.Column)
+        End If
     End Sub
     
+    ' ======================= Editing Track Properties =======================
+    
+    '  Track File
     Sub btnFileSet_Click(sender As Object, e As EventArgs) Handles btnFileSet.Click
         
     End Sub
     
+    '  Track Length
     Sub btnLengthAuto_Click(sender As Object, e As EventArgs) Handles btnLengthAuto.Click
         
     End Sub
@@ -43,6 +56,7 @@ Public Partial Class M3UEdit
         
     End Sub
     
+    '  Track Info
     Sub txtTitle_TextChanged(sender As Object, e As EventArgs) Handles txtTitle.TextChanged
         
     End Sub
@@ -51,6 +65,7 @@ Public Partial Class M3UEdit
         
     End Sub
     
+    '  Track Custom Times
     Sub chkStartTime_CheckedChanged() Handles chkStartTime.CheckedChanged
         
     End Sub
@@ -83,6 +98,7 @@ Public Partial Class M3UEdit
         
     End Sub
     
+    '  Standalone Buttons
     Sub btnMoveUp_Click(sender As Object, e As EventArgs) Handles btnMoveUp.Click
         
     End Sub
@@ -100,15 +116,19 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub btnTest_Click(sender As Object, e As EventArgs) Handles btnTest.Click
-        
+        Process.Start(txtM3UFile.Text)
     End Sub
     
     Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
-        
+        'SaveFile(txtM3UFile.Text)
     End Sub
     
     Sub btnSaveAs_Click(sender As Object, e As EventArgs) Handles btnSaveAs.Click
+        sfdSaveAs.FileName = txtM3UFile.Text
         
+        If sfdSaveAs.ShowDialog() = DialogResult.OK Then
+            'SaveFile(sfdSaveAs.FileName)
+        End If
     End Sub
     
     Sub btnTestSelected_Click(sender As Object, e As EventArgs) Handles btnTestSelected.Click
@@ -116,6 +136,6 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
-        
+        Application.Exit()
     End Sub
 End Class
