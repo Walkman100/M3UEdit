@@ -1,4 +1,3 @@
-﻿
 Imports Microsoft.VisualBasic.ApplicationServices
 
 Namespace My

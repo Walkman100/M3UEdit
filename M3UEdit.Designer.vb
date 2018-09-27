@@ -1,4 +1,3 @@
-﻿
 Partial Class M3UEdit
     Inherits System.Windows.Forms.Form
     
