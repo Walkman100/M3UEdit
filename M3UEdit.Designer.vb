@@ -68,6 +68,8 @@ Partial Class M3UEdit
         Me.btnFileSet = New System.Windows.Forms.Button()
         Me.grpM3UFile = New System.Windows.Forms.GroupBox()
         Me.timerBrowseDelay = New System.Windows.Forms.Timer(Me.components)
+        Me.ofdSelectFile = New System.Windows.Forms.OpenFileDialog()
+        Me.sfdSaveAs = New System.Windows.Forms.SaveFileDialog()
         CType(Me.splitContainerMain,System.ComponentModel.ISupportInitialize).BeginInit
         Me.splitContainerMain.Panel1.SuspendLayout
         Me.splitContainerMain.Panel2.SuspendLayout
@@ -505,6 +507,19 @@ Partial Class M3UEdit
         '
         'timerBrowseDelay
         '
+        Me.timerBrowseDelay.Interval = 50
+        '
+        'ofdSelectFile
+        '
+        Me.ofdSelectFile.DefaultExt = "m3u"
+        Me.ofdSelectFile.Filter = "M3U Playlists|*.m3u|All Files|*.*"
+        Me.ofdSelectFile.Title = "Select file to open"
+        '
+        'sfdSaveAs
+        '
+        Me.sfdSaveAs.DefaultExt = "m3u"
+        Me.sfdSaveAs.Filter = "M3U Playlists|*.m3u|All Files|*.*"
+        Me.sfdSaveAs.Title = "Select Save Location"
         '
         'M3UEdit
         '
@@ -534,36 +549,38 @@ Partial Class M3UEdit
         Me.grpM3UFile.PerformLayout
         Me.ResumeLayout(false)
     End Sub
-    Private btnExit As System.Windows.Forms.Button
-    Private btnStartEndSetLength As System.Windows.Forms.Button
-    Private btnEndTimeGet As System.Windows.Forms.Button
-    Private btnAdd As System.Windows.Forms.Button
-    Private btnRemove As System.Windows.Forms.Button
-    Private btnMoveUp As System.Windows.Forms.Button
-    Private btnMoveDown As System.Windows.Forms.Button
-    Private timerBrowseDelay As System.Windows.Forms.Timer
+    Private sfdSaveAs As System.Windows.Forms.SaveFileDialog
+    Private ofdSelectFile As System.Windows.Forms.OpenFileDialog
+    Private WithEvents btnExit As System.Windows.Forms.Button
+    Private WithEvents btnStartEndSetLength As System.Windows.Forms.Button
+    Private WithEvents btnEndTimeGet As System.Windows.Forms.Button
+    Private WithEvents btnAdd As System.Windows.Forms.Button
+    Private WithEvents btnRemove As System.Windows.Forms.Button
+    Private WithEvents btnMoveUp As System.Windows.Forms.Button
+    Private WithEvents btnMoveDown As System.Windows.Forms.Button
+    Private WithEvents timerBrowseDelay As System.Windows.Forms.Timer
     Private grpM3UFile As System.Windows.Forms.GroupBox
-    Private btnFileSet As System.Windows.Forms.Button
+    Private WithEvents btnFileSet As System.Windows.Forms.Button
     Private txtFile As System.Windows.Forms.TextBox
     Private grpFile As System.Windows.Forms.GroupBox
-    Private numLength As System.Windows.Forms.NumericUpDown
-    Private btnLengthAuto As System.Windows.Forms.Button
-    Private btnLengthConvert As System.Windows.Forms.Button
+    Private WithEvents numLength As System.Windows.Forms.NumericUpDown
+    Private WithEvents btnLengthAuto As System.Windows.Forms.Button
+    Private WithEvents btnLengthConvert As System.Windows.Forms.Button
     Private grpLength As System.Windows.Forms.GroupBox
-    Private txtTitle As System.Windows.Forms.TextBox
-    Private txtArtist As System.Windows.Forms.TextBox
+    Private WithEvents txtTitle As System.Windows.Forms.TextBox
+    Private WithEvents txtArtist As System.Windows.Forms.TextBox
     Private lblArtist As System.Windows.Forms.Label
     Private grpTrackInfo As System.Windows.Forms.GroupBox
-    Private btnSave As System.Windows.Forms.Button
-    Private btnSaveAs As System.Windows.Forms.Button
-    Private btnTest As System.Windows.Forms.Button
-    Private btnTestSelected As System.Windows.Forms.Button
-    Private numStartTime As System.Windows.Forms.NumericUpDown
-    Private btnStartTimeConvert As System.Windows.Forms.Button
-    Private numEndTime As System.Windows.Forms.NumericUpDown
-    Private btnEndTimeConvert As System.Windows.Forms.Button
-    Private chkStartTime As System.Windows.Forms.CheckBox
-    Private chkEndTime As System.Windows.Forms.CheckBox
+    Private WithEvents btnSave As System.Windows.Forms.Button
+    Private WithEvents btnSaveAs As System.Windows.Forms.Button
+    Private WithEvents btnTest As System.Windows.Forms.Button
+    Private WithEvents btnTestSelected As System.Windows.Forms.Button
+    Private WithEvents numStartTime As System.Windows.Forms.NumericUpDown
+    Private WithEvents btnStartTimeConvert As System.Windows.Forms.Button
+    Private WithEvents numEndTime As System.Windows.Forms.NumericUpDown
+    Private WithEvents btnEndTimeConvert As System.Windows.Forms.Button
+    Private WithEvents chkStartTime As System.Windows.Forms.CheckBox
+    Private WithEvents chkEndTime As System.Windows.Forms.CheckBox
     Private grpCustomTimes As System.Windows.Forms.GroupBox
     Private colHeadEndTime As System.Windows.Forms.ColumnHeader
     Private colHeadStartTime As System.Windows.Forms.ColumnHeader
@@ -572,8 +589,8 @@ Partial Class M3UEdit
     Private colHeadLength As System.Windows.Forms.ColumnHeader
     Private colHeadFile As System.Windows.Forms.ColumnHeader
     Private splitContainerMain As System.Windows.Forms.SplitContainer
-    Private btnM3UEdit As System.Windows.Forms.Button
+    Private WithEvents btnM3UEdit As System.Windows.Forms.Button
     Private txtM3UFile As System.Windows.Forms.TextBox
-    Private btnM3UBrowse As System.Windows.Forms.Button
-    Private lstFiles As System.Windows.Forms.ListView
+    Private WithEvents btnM3UBrowse As System.Windows.Forms.Button
+    Private WithEvents lstFiles As System.Windows.Forms.ListView
 End Class
