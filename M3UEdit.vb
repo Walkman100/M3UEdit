@@ -3,9 +3,13 @@ Option Strict On
 Option Compare Binary
 Option Infer On
 
+Imports System.IO.File
+Imports System.Runtime.CompilerServices
+
 Public Partial Class M3UEdit
     Public Sub New()
         Me.InitializeComponent()
+        lstFiles.DoubleBuffered(True)
     End Sub
     
     Sub M3UEdit_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -100,19 +104,76 @@ Public Partial Class M3UEdit
     
     '  Standalone Buttons
     Sub btnMoveUp_Click(sender As Object, e As EventArgs) Handles btnMoveUp.Click
-        
+        Try
+            If lstFiles.SelectedItems.Count > 0 Then
+                lstFiles.Sorting = SortOrder.None
+                Dim selected As ListViewItem = lstFiles.SelectedItems(0)
+                Dim selectedIndex As Integer = selected.Index
+                Dim totalItems As Integer = lstFiles.Items.Count
+                
+                lstFiles.BeginUpdate()
+                If selectedIndex = 0 Then
+                    lstFiles.Items.Remove(selected)
+                    lstFiles.Items.Insert(totalItems - 1, selected)
+                Else
+                    lstFiles.Items.Remove(selected)
+                    lstFiles.Items.Insert(selectedIndex - 1, selected)
+                End If
+                lstFiles.EndUpdate()
+                
+                PopulateEditSection()
+            Else
+                btnMoveUp.Enabled = False
+            End If
+        Catch ex As Exception
+            MsgBox("There was an error moving the item: " & ex.Message, MsgBoxStyle.Exclamation)
+        End Try
     End Sub
     
     Sub btnMoveDown_Click(sender As Object, e As EventArgs) Handles btnMoveDown.Click
-        
+        Try
+            If lstFiles.SelectedItems.Count > 0 Then
+                lstFiles.Sorting = SortOrder.None
+                Dim selected As ListViewItem = lstFiles.SelectedItems(0)
+                Dim selectedIndex As Integer = selected.Index
+                Dim totalItems As Integer = lstFiles.Items.Count
+                
+                lstFiles.BeginUpdate()
+                If selectedIndex = totalItems - 1 Then
+                    lstFiles.Items.Remove(selected)
+                    lstFiles.Items.Insert(0, selected)
+                Else
+                    lstFiles.Items.Remove(selected)
+                    lstFiles.Items.Insert(selectedIndex + 1, selected)
+                End If
+                lstFiles.EndUpdate()
+                
+                PopulateEditSection()
+            Else
+                btnMoveDown.Enabled = False
+            End If
+        Catch ex As Exception
+            MsgBox("There was an error moving the item: " & ex.Message, MsgBoxStyle.Exclamation)
+        End Try
     End Sub
     
     Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
+        Dim tmpListViewItem As New ListViewItem(New String() {"", "", "", "", "", ""})
+        lstFiles.Items.Add(tmpListViewItem).Selected = True
+        tmpListViewItem.Focused = True
         
+        PopulateEditSection()
     End Sub
     
     Sub btnRemove_Click(sender As Object, e As EventArgs) Handles btnRemove.Click
-        
+        If lstFiles.SelectedItems.Count > 1 Then
+            For Each item As ListViewItem In lstFiles.SelectedItems
+                item.Remove
+            Next
+        Else
+            lstFiles.SelectedItems(0).Remove
+        End If
+        PopulateEditSection()
     End Sub
     
     Sub btnTest_Click(sender As Object, e As EventArgs) Handles btnTest.Click
@@ -139,3 +200,11 @@ Public Partial Class M3UEdit
         Application.Exit()
     End Sub
 End Class
+
+Module ControlExtensions ' thanks to https://stackoverflow.com/a/15268338/2999220
+    <Extension()>
+    Public Sub DoubleBuffered(control As Control, enable As Boolean)
+        Dim doubleBufferPropertyInfo = control.[GetType]().GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance Or System.Reflection.BindingFlags.NonPublic)
+        doubleBufferPropertyInfo.SetValue(control, enable, Nothing)
+    End Sub
+End Module
