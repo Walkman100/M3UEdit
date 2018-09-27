@@ -3,8 +3,8 @@
 VB.Net program to manage M3U playlists used by VLC Media Player
 
 ## Download
-Get the latest version [here](https://github.com/Walkman100/PropertiesDotNet/releases), and the latest build from commit
-[here](https://ci.appveyor.com/project/Walkman100/PropertiesDotNet/build/artifacts)
+Get the latest version [here](https://github.com/Walkman100/M3UEdit/releases), and the latest build from commit
+[here](https://ci.appveyor.com/project/Walkman100/M3UEdit/build/artifacts)
 (note that these builds are built for the Debug config and so are not optimised)
 
 ## Compile requirements
