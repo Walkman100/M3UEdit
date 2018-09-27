@@ -163,7 +163,9 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub numLength_ValueChanged(sender As Object, e As EventArgs) Handles numLength.ValueChanged
-        
+        If lstFiles.SelectedItems.Count <> 0 Then
+            lstFiles.SelectedItems(0).SubItems.Item(1).Text = numLength.Value.ToString
+        End If
     End Sub
     
     Sub btnLengthConvert_Click(sender As Object, e As EventArgs) Handles btnLengthConvert.Click
@@ -172,32 +174,63 @@ Public Partial Class M3UEdit
     
     '  Track Info
     Sub txtTitle_TextChanged(sender As Object, e As EventArgs) Handles txtTitle.TextChanged
-        
+        If lstFiles.SelectedItems.Count <> 0 Then
+            lstFiles.SelectedItems(0).SubItems.Item(2).Text = txtTitle.Text
+        End If
     End Sub
     
     Sub txtArtist_TextChanged(sender As Object, e As EventArgs) Handles txtArtist.TextChanged
-        
+        If lstFiles.SelectedItems.Count <> 0 Then
+            lstFiles.SelectedItems(0).SubItems.Item(3).Text = txtArtist.Text
+        End If
     End Sub
     
     '  Track Custom Times
-    Sub chkStartTime_CheckedChanged() Handles chkStartTime.CheckedChanged
+    Sub chkStartTime_CheckedChanged() Handles chkStartTime.Click ' use Click else selecting different items erases them because the checkbox is unchecked
+        numStartTime.Enabled = chkStartTime.Checked
+        btnStartTimeConvert.Enabled = chkStartTime.Checked
         
+        btnEndTimeGet.Enabled = chkStartTime.Checked
+        btnStartEndSetLength.Enabled = (chkStartTime.Checked And chkEndTime.Checked)
+        
+        If lstFiles.SelectedItems.Count <> 0 Then
+            If chkStartTime.Checked Then
+                lstFiles.SelectedItems(0).SubItems.Item(4).Text = numStartTime.Value.ToString()
+            Else
+                lstFiles.SelectedItems(0).SubItems.Item(4).Text = ""
+            End If
+        End If
     End Sub
     
     Sub numStartTime_ValueChanged(sender As Object, e As EventArgs) Handles numStartTime.ValueChanged
-        
+        If lstFiles.SelectedItems.Count <> 0 Then
+            lstFiles.SelectedItems(0).SubItems.Item(4).Text = numStartTime.Value.ToString()
+        End If
     End Sub
     
     Sub btnStartTimeConvert_Click(sender As Object, e As EventArgs) Handles btnStartTimeConvert.Click
         
     End Sub
     
-    Sub chkEndTime_CheckedChanged() Handles chkEndTime.CheckedChanged
+    Sub chkEndTime_CheckedChanged() Handles chkEndTime.Click ' use Click for same reason as above
+        numEndTime.Enabled = chkEndTime.Checked
+        btnEndTimeConvert.Enabled = chkEndTime.Checked
         
+        btnStartEndSetLength.Enabled = (chkStartTime.Checked And chkEndTime.Checked)
+        
+        If lstFiles.SelectedItems.Count <> 0 Then
+            If chkEndTime.Checked Then
+                lstFiles.SelectedItems(0).SubItems.Item(5).Text = numEndTime.Value.ToString()
+            Else
+                lstFiles.SelectedItems(0).SubItems.Item(5).Text = ""
+            End If
+        End If
     End Sub
     
     Sub numEndTime_ValueChanged(sender As Object, e As EventArgs) Handles numEndTime.ValueChanged
-        
+        If lstFiles.SelectedItems.Count <> 0 Then
+            lstFiles.SelectedItems(0).SubItems.Item(5).Text = numEndTime.Value.ToString()
+        End If
     End Sub
     
     Sub btnEndTimeConvert_Click(sender As Object, e As EventArgs) Handles btnEndTimeConvert.Click
@@ -205,11 +238,19 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub btnEndTimeGet_Click(sender As Object, e As EventArgs) Handles btnEndTimeGet.Click
-        
+        chkEndTime.Checked = True
+        numEndTime.Value = 0 ' clear possibly existing value, so that the ValueChanged event is fired if value is the same
+        numEndTime.Value = numStartTime.Value + numLength.Value
+        PopulateEditSection()
     End Sub
     
     Sub btnStartEndSetLength_Click(sender As Object, e As EventArgs) Handles btnStartEndSetLength.Click
-        
+        If numEndTime.Value - numStartTime.Value < 0 Then
+            MsgBox("Cannot set length to a negative value!", MsgBoxStyle.Exclamation)
+        Else
+            numLength.Value = numEndTime.Value - numStartTime.Value
+            PopulateEditSection()
+        End If
     End Sub
     
     '  Standalone Buttons
