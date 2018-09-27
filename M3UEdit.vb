@@ -13,23 +13,133 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub M3UEdit_Load(sender As Object, e As EventArgs) Handles Me.Load
+        For Each s As String In My.Application.CommandLineArgs
+            If txtM3UFile.Text = "" Then
+                txtM3UFile.Text = s
+            Else
+                Process.Start(Application.StartupPath & "\" & Process.GetCurrentProcess.ProcessName & ".exe", """" & s & """")
+            End If
+        Next
         
+        timerBrowseDelay.Start
     End Sub
     
     Sub timerBrowseDelay_Tick(sender As Object, e As EventArgs) Handles timerBrowseDelay.Tick
+        timerBrowseDelay.Stop
+        PopulateEditSection()
+        chkStartTime_CheckedChanged() ' safe because nothing can be selected yet
+        chkEndTime_CheckedChanged()
         
+        If txtM3UFile.Text = "" Then
+            If ofdSelectFile.ShowDialog() = DialogResult.OK Then
+                txtM3UFile.Text = ofdSelectFile.FileName
+                
+                'LoadFile()
+            End If
+        End If
     End Sub
     
     Sub btnM3UBrowse_Click(sender As Object, e As EventArgs) Handles btnM3UBrowse.Click
+        ofdSelectFile.FileName = txtM3UFile.Text
         
+        If ofdSelectFile.ShowDialog() = DialogResult.OK Then
+            txtM3UFile.ReadOnly = True
+            btnM3UEdit.Text = "Edit"
+            btnSave.Enabled = True
+            btnTest.Enabled = True
+            
+            txtM3UFile.Text = ofdSelectFile.FileName
+            
+            'LoadFile()
+        End If
     End Sub
     
     Sub btnM3UEdit_Click(sender As Object, e As EventArgs) Handles btnM3UEdit.Click
-        
+        If btnM3UEdit.Text = "Edit" Then
+            txtM3UFile.ReadOnly = False
+            btnM3UEdit.Text = "Load"
+            btnSave.Enabled = False
+            btnTest.Enabled = False
+            
+        ElseIf btnM3UEdit.Text = "Load"
+            If Exists(txtM3UFile.Text) Then
+                txtM3UFile.ReadOnly = True
+                btnM3UEdit.Text = "Edit"
+                btnSave.Enabled = True
+                btnTest.Enabled = True
+                
+                'LoadFile()
+            Else
+                MsgBox("File Not Found!", MsgBoxStyle.Exclamation)
+            End If
+        End If
     End Sub
     
     Sub PopulateEditSection() Handles lstFiles.SelectedIndexChanged
-        
+        If lstFiles.SelectedItems.Count = 0 Then
+            grpFile.Enabled = False
+            txtFile.Text = ""
+            
+            grpLength.Enabled = False
+            numLength.Value = 0
+            
+            grpTrackInfo.Enabled = False
+            txtTitle.Text = ""
+            txtArtist.Text = ""
+            
+            grpCustomTimes.Enabled = False
+            chkStartTime.Checked = False
+            numStartTime.Value = 0
+            chkEndTime.Checked = False
+            numEndTime.Value = 0
+            
+            btnMoveUp.Enabled = False
+            btnMoveDown.Enabled = False
+            btnRemove.Enabled = False
+            btnTestSelected.Enabled = False
+        Else
+            grpFile.Enabled = True
+            txtFile.Text = lstFiles.SelectedItems(0).Text
+            
+            grpLength.Enabled = True
+            If IsNumeric(lstFiles.SelectedItems(0).SubItems.Item(1).Text) Then
+                numLength.Value = CType(lstFiles.SelectedItems(0).SubItems.Item(1).Text, Decimal)
+            End If
+            
+            grpTrackInfo.Enabled = True
+            If Not IsNothing(lstFiles.SelectedItems(0).SubItems.Item(2).Text) Then
+                txtTitle.Text = lstFiles.SelectedItems(0).SubItems.Item(2).Text
+            End If
+            If Not IsNothing(lstFiles.SelectedItems(0).SubItems.Item(3).Text) Then
+                txtArtist.Text = lstFiles.SelectedItems(0).SubItems.Item(3).Text
+            End If
+            
+            grpCustomTimes.Enabled = True
+            If IsNumeric(lstFiles.SelectedItems(0).SubItems.Item(4).Text) Then
+                chkStartTime.Checked = True
+                numStartTime.Value = CType(lstFiles.SelectedItems(0).SubItems.Item(4).Text, Decimal)
+            Else
+                chkStartTime.Checked = False
+            End If
+            If IsNumeric(lstFiles.SelectedItems(0).SubItems.Item(5).Text) Then
+                chkEndTime.Checked = True
+                numEndTime.Value = CType(lstFiles.SelectedItems(0).SubItems.Item(5).Text, Decimal)
+            Else
+                chkEndTime.Checked = False
+            End If
+            
+            numStartTime.Enabled = chkStartTime.Checked
+            btnStartTimeConvert.Enabled = chkStartTime.Checked
+            numEndTime.Enabled = chkEndTime.Checked
+            btnEndTimeConvert.Enabled = chkEndTime.Checked
+            btnEndTimeGet.Enabled = chkStartTime.Checked
+            btnStartEndSetLength.Enabled = (chkStartTime.Checked And chkEndTime.Checked)
+            
+            btnMoveUp.Enabled = True
+            btnMoveDown.Enabled = True
+            btnRemove.Enabled = True
+            btnTestSelected.Enabled = True
+        End If
     End Sub
     
     Sub lstFiles_ColumnClick(sender As Object, e As ColumnClickEventArgs) Handles lstFiles.ColumnClick
