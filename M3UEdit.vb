@@ -92,8 +92,21 @@ Public Partial Class M3UEdit
             
             For Each line As String In ReadAllLines(path)
                 If line = "#EXTM3U" Then
-                    ' ignore M3U header
+                    Continue For ' ignore M3U header
                 ElseIf line.StartsWith("#EXTINF:", True, Nothing) '<length>,Artist - Title
+                    ' check for existing info
+                    If tmpListViewItem.SubItems.Item(1).Text <> "" Or tmpListViewItem.SubItems.Item(2).Text <> "" Or tmpListViewItem.SubItems.Item(3).Text <> "" Then
+                        Dim msgBoxPrompt = "Duplicate info detected! Load new line:" & vbNewLine & vbNewLine & line & vbNewLine & vbNewLine & "over old information:" & vbNewLine & _
+                            "Length: " & tmpListViewItem.SubItems.Item(1).Text & vbNewLine & "Track: " & tmpListViewItem.SubItems.Item(2).Text & vbNewLine & "Artist: " & tmpListViewItem.SubItems.Item(3).Text
+                        
+                        Select Case MsgBox(msgBoxPrompt, MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNoCancel)
+                            Case MsgBoxResult.No
+                                Continue For
+                            Case MsgBoxResult.Cancel
+                                Exit For
+                        End Select
+                    End If
+                    
                     line = line.Substring(8) ' clear line start
                     
                     If line.Contains(",") Then
@@ -104,7 +117,7 @@ Public Partial Class M3UEdit
                         line = line.Substring(line.IndexOf(",") +1)
                         
                         ' check for artist
-                        If line.Contains("-") Then
+                        If line.Contains(" - ") Then
                             ' set artist
                             tmpListViewItem.SubItems.Item(3).Text = line.Remove( line.IndexOf("-") ).Trim()
                             ' set title
@@ -119,7 +132,7 @@ Public Partial Class M3UEdit
                     ElseIf Decimal.TryParse(line, Globalization.NumberStyles.Any, Globalization.CultureInfo.InvariantCulture, Nothing) Then ' set length
                         tmpListViewItem.SubItems.Item(1).Text = line
                         
-                    ElseIf line.Contains("-") Then ' check for artist
+                    ElseIf line.Contains(" - ") Then ' check for artist
                         ' set artist
                         tmpListViewItem.SubItems.Item(3).Text = line.Remove( line.IndexOf("-") ).Trim()
                         ' set title
@@ -133,6 +146,16 @@ Public Partial Class M3UEdit
                 ElseIf line.StartsWith("#EXTVLCOPT:start-time=", True, Nothing) ' #EXTVLCOPT:start-time=<starttime>
                     line = line.Substring(22) ' clear line start and start time label
                     
+                    ' check for existing info
+                    If tmpListViewItem.SubItems.Item(4).Text <> "" Then
+                        Select Case MsgBox("Duplicate start time detected! Load new time """ & line & """ over old time """ & tmpListViewItem.SubItems.Item(4).Text & """?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNoCancel)
+                            Case MsgBoxResult.No
+                                Continue For
+                            Case MsgBoxResult.Cancel
+                                Exit For
+                        End Select
+                    End If
+                    
                     ' use Decimal.TryParse to allow "." in cultures that use "," as decimal point
                     If Decimal.TryParse(line, Globalization.NumberStyles.Any, Globalization.CultureInfo.InvariantCulture, Nothing) Then
                         
@@ -143,6 +166,16 @@ Public Partial Class M3UEdit
                     
                 ElseIf line.StartsWith("#EXTVLCOPT:stop-time=") ' #EXTVLCOPT:stop-time=<stoptime>
                     line = line.Substring(21) ' clear line start and end time label
+                    
+                    ' check for existing info
+                    If tmpListViewItem.SubItems.Item(5).Text <> "" Then
+                        Select Case MsgBox("Duplicate end time detected! Load new time """ & line & """ over old time """ & tmpListViewItem.SubItems.Item(4).Text & """?", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNoCancel)
+                            Case MsgBoxResult.No
+                                Continue For
+                            Case MsgBoxResult.Cancel
+                                Exit For
+                        End Select
+                    End If
                     
                     ' use Decimal.TryParse to allow "." in cultures that use "," as decimal point
                     If Decimal.TryParse(line, Globalization.NumberStyles.Any, Globalization.CultureInfo.InvariantCulture, Nothing) Then
