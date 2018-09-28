@@ -286,6 +286,12 @@ Public Partial Class M3UEdit
     ' ======================= Editing Track Properties =======================
     
     '  Track File
+    Sub txtFile_TextChanged() Handles txtFile.TextChanged
+        If lstFiles.SelectedItems.Count <> 0 Then
+            lstFiles.SelectedItems(0).Text = txtFile.Text
+        End If
+    End Sub
+    
     Sub btnFileSet_Click(sender As Object, e As EventArgs) Handles btnFileSet.Click
         
     End Sub
@@ -474,6 +480,15 @@ Public Partial Class M3UEdit
         
         If sfdSaveAs.ShowDialog() = DialogResult.OK Then
             SaveFile(sfdSaveAs.FileName)
+            
+            If MsgBox("Read new file?", MsgBoxStyle.Question Or MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                txtM3UFile.ReadOnly = True
+                btnM3UEdit.Text = "Edit"
+                btnSave.Enabled = True
+                btnTest.Enabled = True
+                
+                txtM3UFile.Text = sfdSaveAs.FileName
+            End If
         End If
     End Sub
     

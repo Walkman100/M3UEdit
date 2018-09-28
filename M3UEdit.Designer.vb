@@ -477,7 +477,6 @@ Partial Class M3UEdit
                         Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.txtFile.Location = New System.Drawing.Point(6, 21)
         Me.txtFile.Name = "txtFile"
-        Me.txtFile.ReadOnly = true
         Me.txtFile.Size = New System.Drawing.Size(354, 20)
         Me.txtFile.TabIndex = 0
         '
@@ -561,7 +560,7 @@ Partial Class M3UEdit
     Private WithEvents timerBrowseDelay As System.Windows.Forms.Timer
     Private grpM3UFile As System.Windows.Forms.GroupBox
     Private WithEvents btnFileSet As System.Windows.Forms.Button
-    Private txtFile As System.Windows.Forms.TextBox
+    Private WithEvents txtFile As System.Windows.Forms.TextBox
     Private grpFile As System.Windows.Forms.GroupBox
     Private WithEvents numLength As System.Windows.Forms.NumericUpDown
     Private WithEvents btnLengthAuto As System.Windows.Forms.Button
