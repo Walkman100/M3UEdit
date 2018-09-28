@@ -1,6 +1,6 @@
 # M3UEdit [![Build status](https://ci.appveyor.com/api/projects/status/4asclj873qjd73ke)](https://ci.appveyor.com/project/Walkman100/m3uedit)
 
-VB.Net program to manage M3U playlists used by VLC Media Player
+VB.Net program to manage M3U playlists used by [VLC Media Player](https://www.videolan.org/vlc/)
 
 ## Download
 Get the latest version [here](https://github.com/Walkman100/M3UEdit/releases), and the latest build from commit

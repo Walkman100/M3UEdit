@@ -115,7 +115,8 @@ Public Partial Class M3UEdit
                             tmpListViewItem.SubItems.Item(2).Text = line
                         End If
                         
-                    ElseIf IsNumeric(line) Then ' set length
+                        ' use Decimal.TryParse instead of IsNumeric  to allow "." in cultures that use "," as decimal point
+                    ElseIf Decimal.TryParse(line, Globalization.NumberStyles.Any, Globalization.CultureInfo.InvariantCulture, Nothing) Then ' set length
                         tmpListViewItem.SubItems.Item(1).Text = line
                         
                     ElseIf line.Contains("-") Then ' check for artist
@@ -131,15 +132,21 @@ Public Partial Class M3UEdit
                     
                 ElseIf line.StartsWith("#EXTVLCOPT:start-time=", True, Nothing) ' #EXTVLCOPT:start-time=<starttime>
                     line = line.Substring(22) ' clear line start and start time label
-                    If IsNumeric(line) Then
+                    
+                    ' use Decimal.TryParse to allow "." in cultures that use "," as decimal point
+                    If Decimal.TryParse(line, Globalization.NumberStyles.Any, Globalization.CultureInfo.InvariantCulture, Nothing) Then
+                        
                         tmpListViewItem.SubItems.Item(4).Text = line
                     Else
                         MsgBox("Invalid start time detected: """ & line & """", MsgBoxStyle.Exclamation)
                     End If
                     
                 ElseIf line.StartsWith("#EXTVLCOPT:stop-time=") ' #EXTVLCOPT:stop-time=<stoptime>
-                    line = line.Substring(21) 'clear line start and end time label
-                    If IsNumeric(line) Then
+                    line = line.Substring(21) ' clear line start and end time label
+                    
+                    ' use Decimal.TryParse to allow "." in cultures that use "," as decimal point
+                    If Decimal.TryParse(line, Globalization.NumberStyles.Any, Globalization.CultureInfo.InvariantCulture, Nothing) Then
+                        
                         tmpListViewItem.SubItems.Item(5).Text = line
                     Else
                         MsgBox("Invalid end time detected: """ & line & """", MsgBoxStyle.Exclamation)
@@ -193,11 +200,11 @@ Public Partial Class M3UEdit
                 
                 ' start time
                 If trackItem.SubItems.Item(4).Text <> "" Then
-                    writer.WriteLine("EXTVLCOPT:start-time=" & trackItem.SubItems.Item(4).Text)
+                    writer.WriteLine("#EXTVLCOPT:start-time=" & trackItem.SubItems.Item(4).Text)
                 End If
                 ' stop time
                 If trackItem.SubItems.Item(5).Text <> "" Then
-                    writer.WriteLine("EXTVLCOPT:stop-time=" & trackItem.SubItems.Item(5).Text)
+                    writer.WriteLine("#EXTVLCOPT:stop-time=" & trackItem.SubItems.Item(5).Text)
                 End If
                 
                 ' file
