@@ -12,6 +12,8 @@ Public Partial Class M3UEdit
         lstFiles.DoubleBuffered(True)
     End Sub
     
+    ' ======================= Loading File (UI stuff) =======================
+    
     Sub M3UEdit_Load(sender As Object, e As EventArgs) Handles Me.Load
         For Each s As String In My.Application.CommandLineArgs
             If txtM3UFile.Text = "" Then
@@ -34,7 +36,7 @@ Public Partial Class M3UEdit
             If ofdSelectFile.ShowDialog() = DialogResult.OK Then
                 txtM3UFile.Text = ofdSelectFile.FileName
                 
-                'LoadFile()
+                LoadFile(ofdSelectFile.FileName)
             End If
         End If
     End Sub
@@ -50,7 +52,7 @@ Public Partial Class M3UEdit
             
             txtM3UFile.Text = ofdSelectFile.FileName
             
-            'LoadFile()
+            LoadFile(ofdSelectFile.FileName)
         End If
     End Sub
     
@@ -68,12 +70,94 @@ Public Partial Class M3UEdit
                 btnSave.Enabled = True
                 btnTest.Enabled = True
                 
-                'LoadFile()
+                LoadFile(txtM3UFile.Text)
             Else
                 MsgBox("File Not Found!", MsgBoxStyle.Exclamation)
             End If
         End If
     End Sub
+    
+    ' ======================= Actual Load File =======================
+    
+    Sub LoadFile(path As String)
+        If Exists(path) Then
+            lstFiles.Items.Clear()
+            
+            Dim tmpListViewItem As New ListViewItem(New String() {"", "", "", "", "", ""})
+            
+            For Each line As String In ReadAllLines(path)
+                If line = "#EXTM3U" Then
+                    ' ignore M3U header
+                ElseIf line.StartsWith("#EXTINF:", True, Nothing) '<length>,Artist - Title
+                    line = line.Substring(8) ' clear line start
+                    
+                    If line.Contains(",") Then
+                        ' set length
+                        tmpListViewItem.SubItems.Item(1).Text = line.Remove(line.IndexOf(","))
+                        
+                        ' remove length from string
+                        line = line.Substring(line.IndexOf(",") +1)
+                        
+                        ' check for artist
+                        If line.Contains("-") Then
+                            ' set artist
+                            tmpListViewItem.SubItems.Item(3).Text = line.Remove( line.IndexOf("-") ).Trim()
+                            ' set title
+                            tmpListViewItem.SubItems.Item(2).Text = line.Substring( line.IndexOf("-") +1 ).Trim()
+                            
+                        Else
+                            ' no artist, just set title
+                            tmpListViewItem.SubItems.Item(2).Text = line
+                        End If
+                        
+                    ElseIf IsNumeric(line) Then ' set length
+                        tmpListViewItem.SubItems.Item(1).Text = line
+                        
+                    ElseIf line.Contains("-") Then ' check for artist
+                        ' set artist
+                        tmpListViewItem.SubItems.Item(3).Text = line.Remove( line.IndexOf("-") ).Trim()
+                        ' set title
+                        tmpListViewItem.SubItems.Item(2).Text = line.Substring( line.IndexOf("-") +1 ).Trim()
+                        
+                    Else ' no artist, just set title
+                        tmpListViewItem.SubItems.Item(2).Text = line
+                    End If
+                    
+                    
+                ElseIf line.StartsWith("#EXTVLCOPT:start-time=", True, Nothing) ' #EXTVLCOPT:start-time=<starttime>
+                    line = line.Substring(22) ' clear line start and start time label
+                    If IsNumeric(line) Then
+                        tmpListViewItem.SubItems.Item(4).Text = line
+                    Else
+                        MsgBox("Invalid start time detected: """ & line & """", MsgBoxStyle.Exclamation)
+                    End If
+                    
+                ElseIf line.StartsWith("#EXTVLCOPT:stop-time=") ' #EXTVLCOPT:stop-time=<stoptime>
+                    line = line.Substring(21) 'clear line start and end time label
+                    If IsNumeric(line) Then
+                        tmpListViewItem.SubItems.Item(5).Text = line
+                    Else
+                        MsgBox("Invalid end time detected: """ & line & """", MsgBoxStyle.Exclamation)
+                    End If
+                    
+                Else ' file path
+                    tmpListViewItem.Text = line
+                    
+                    lstFiles.Items.Add(tmpListViewItem)
+                    
+                    ' done adding item, clear values
+                    tmpListViewItem = New ListViewItem(New String() {"", "", "", "", "", ""})
+                End If
+            Next
+            
+            lstFiles.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize)
+            PopulateEditSection()
+        Else
+            MsgBox("""" & path & """ not found!", MsgBoxStyle.Exclamation)
+        End If
+    End Sub
+    
+    ' ======================= Loading a track into edit section =======================
     
     Sub PopulateEditSection() Handles lstFiles.SelectedIndexChanged
         If lstFiles.SelectedItems.Count = 0 Then
@@ -253,7 +337,8 @@ Public Partial Class M3UEdit
         End If
     End Sub
     
-    '  Standalone Buttons
+    ' ======================= Standalone Buttons =======================
+    
     Sub btnMoveUp_Click(sender As Object, e As EventArgs) Handles btnMoveUp.Click
         Try
             If lstFiles.SelectedItems.Count > 0 Then
