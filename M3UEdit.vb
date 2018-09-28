@@ -32,14 +32,16 @@ Public Partial Class M3UEdit
         chkStartTime_CheckedChanged() ' safe because nothing can be selected yet
         chkEndTime_CheckedChanged()
         
+        btnM3UEdit_Click() ' set textbox to editable
+        
         If txtM3UFile.Text = "" Then
             If ofdSelectFile.ShowDialog() = DialogResult.OK Then
                 txtM3UFile.Text = ofdSelectFile.FileName
                 
-                LoadFile(ofdSelectFile.FileName)
+                btnM3UEdit_Click() ' set textbox to readonly and load file
             End If
         Else
-            LoadFile(txtM3UFile.Text)
+            btnM3UEdit_Click() ' set textbox to readonly and load file
         End If
     End Sub
     
@@ -58,7 +60,7 @@ Public Partial Class M3UEdit
         End If
     End Sub
     
-    Sub btnM3UEdit_Click(sender As Object, e As EventArgs) Handles btnM3UEdit.Click
+    Sub btnM3UEdit_Click() Handles btnM3UEdit.Click
         If btnM3UEdit.Text = "Edit" Then
             txtM3UFile.ReadOnly = False
             btnM3UEdit.Text = "Load"
@@ -293,12 +295,12 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub btnFileSet_Click(sender As Object, e As EventArgs) Handles btnFileSet.Click
-        
+        Throw New NotImplementedException
     End Sub
     
     '  Track Length
     Sub btnLengthAuto_Click(sender As Object, e As EventArgs) Handles btnLengthAuto.Click
-        
+        Throw New NotImplementedException
     End Sub
     
     Sub numLength_ValueChanged(sender As Object, e As EventArgs) Handles numLength.ValueChanged
@@ -308,7 +310,7 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub btnLengthConvert_Click(sender As Object, e As EventArgs) Handles btnLengthConvert.Click
-        
+        Throw New NotImplementedException
     End Sub
     
     '  Track Info
@@ -348,7 +350,7 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub btnStartTimeConvert_Click(sender As Object, e As EventArgs) Handles btnStartTimeConvert.Click
-        
+        Throw New NotImplementedException
     End Sub
     
     Sub chkEndTime_CheckedChanged() Handles chkEndTime.Click ' use Click for same reason as above
@@ -373,7 +375,7 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub btnEndTimeConvert_Click(sender As Object, e As EventArgs) Handles btnEndTimeConvert.Click
-        
+        Throw New NotImplementedException
     End Sub
     
     Sub btnEndTimeGet_Click(sender As Object, e As EventArgs) Handles btnEndTimeGet.Click
@@ -493,7 +495,7 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub btnTestSelected_Click(sender As Object, e As EventArgs) Handles btnTestSelected.Click
-        
+        Throw New NotImplementedException
     End Sub
     
     Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
