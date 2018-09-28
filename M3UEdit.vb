@@ -242,9 +242,8 @@ Public Partial Class M3UEdit
             txtFile.Text = lstFiles.SelectedItems(0).Text
             
             grpLength.Enabled = True
-            If IsNumeric(lstFiles.SelectedItems(0).SubItems.Item(1).Text) Then
-                numLength.Value = CType(lstFiles.SelectedItems(0).SubItems.Item(1).Text, Decimal)
-            End If
+            Decimal.TryParse(lstFiles.SelectedItems(0).SubItems.Item(1).Text, Globalization.NumberStyles.Any, _
+              Globalization.CultureInfo.InvariantCulture, numLength.Value) ' result is ByRef, so TryParse updates it if it can
             
             grpTrackInfo.Enabled = True
             If Not IsNothing(lstFiles.SelectedItems(0).SubItems.Item(2).Text) Then
@@ -255,15 +254,15 @@ Public Partial Class M3UEdit
             End If
             
             grpCustomTimes.Enabled = True
-            If IsNumeric(lstFiles.SelectedItems(0).SubItems.Item(4).Text) Then
+            If Decimal.TryParse(lstFiles.SelectedItems(0).SubItems.Item(4).Text, Globalization.NumberStyles.Any, _
+              Globalization.CultureInfo.InvariantCulture, numStartTime.Value) Then ' result is ByRef, so TryParse updates it if it can
                 chkStartTime.Checked = True
-                numStartTime.Value = CType(lstFiles.SelectedItems(0).SubItems.Item(4).Text, Decimal)
             Else
                 chkStartTime.Checked = False
             End If
-            If IsNumeric(lstFiles.SelectedItems(0).SubItems.Item(5).Text) Then
+            If Decimal.TryParse(lstFiles.SelectedItems(0).SubItems.Item(5).Text, Globalization.NumberStyles.Any, _
+              Globalization.CultureInfo.InvariantCulture, numEndTime.Value) Then ' result is ByRef, so TryParse updates it if it can
                 chkEndTime.Checked = True
-                numEndTime.Value = CType(lstFiles.SelectedItems(0).SubItems.Item(5).Text, Decimal)
             Else
                 chkEndTime.Checked = False
             End If
