@@ -9,3 +9,6 @@ Get the latest version [here](https://github.com/Walkman100/M3UEdit/releases), a
 
 ## Compile requirements
 See [CompileInstructions.md](https://github.com/Walkman100/gists/blob/master/CompileInstructions.md)
+
+## Credits
+Program Icon: https://www.iconfinder.com/icons/3671837/playlist_icon
