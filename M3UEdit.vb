@@ -163,7 +163,45 @@ Public Partial Class M3UEdit
     ' ======================= Save File =======================
     
     Sub SaveFile(path As String)
-        
+        Using writer As IO.StreamWriter = New IO.StreamWriter(path, False, System.Text.Encoding.UTF8)
+            writer.WriteLine("#EXTM3U")
+            
+            For Each trackItem As ListViewItem In lstFiles.Items
+                If trackItem.SubItems.Item(1).Text <> "" Or trackItem.SubItems.Item(2).Text <> "" Or trackItem.SubItems.Item(3).Text <> "" Then
+                    writer.Write("#EXTINF:")
+                End If
+                
+                '<length>,Artist - Title
+                If trackItem.SubItems.Item(1).Text <> "" Then
+                    writer.Write(trackItem.SubItems.Item(1).Text)
+                Else
+                    writer.Write(0)
+                End If
+                
+                If trackItem.SubItems.Item(2).Text <> "" Or trackItem.SubItems.Item(3).Text <> "" Then
+                    writer.Write(",")
+                    
+                    If trackItem.SubItems.Item(3).Text <> "" Then
+                        writer.Write(trackItem.SubItems.Item(3).Text)
+                        writer.Write(" - ")
+                    End If
+                    
+                    writer.WriteLine(trackItem.SubItems.Item(2).Text)
+                End If
+                
+                ' start time
+                If trackItem.SubItems.Item(4).Text <> "" Then
+                    writer.WriteLine("EXTVLCOPT:start-time=" & trackItem.SubItems.Item(4).Text)
+                End If
+                ' stop time
+                If trackItem.SubItems.Item(5).Text <> "" Then
+                    writer.WriteLine("EXTVLCOPT:stop-time=" & trackItem.SubItems.Item(5).Text)
+                End If
+                
+                ' file
+                writer.WriteLine(trackItem.Text)
+            Next
+        End Using
     End Sub
     
     ' ======================= Loading a track into edit section =======================
@@ -428,14 +466,14 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
-        'SaveFile(txtM3UFile.Text)
+        SaveFile(txtM3UFile.Text)
     End Sub
     
     Sub btnSaveAs_Click(sender As Object, e As EventArgs) Handles btnSaveAs.Click
         sfdSaveAs.FileName = txtM3UFile.Text
         
         If sfdSaveAs.ShowDialog() = DialogResult.OK Then
-            'SaveFile(sfdSaveAs.FileName)
+            SaveFile(sfdSaveAs.FileName)
         End If
     End Sub
     
