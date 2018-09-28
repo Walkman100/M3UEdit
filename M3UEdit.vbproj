@@ -13,6 +13,7 @@
     <OptionInfer>On</OptionInfer>
     <ApplicationManifest>Properties\App.manifest</ApplicationManifest>
     <NoWin32Manifest>False</NoWin32Manifest>
+    <ApplicationIcon>Properties\M3UEdit.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -64,10 +65,21 @@
     <Compile Include="M3UEdit.vb" />
     <Compile Include="Properties\Application.vb" />
     <Compile Include="Properties\AssemblyInfo.vb" />
+    <Compile Include="Properties\Resources.Designer.vb">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\App.config" />
     <None Include="Properties\App.manifest" />
+    <None Include="Properties\M3UEdit.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

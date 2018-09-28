@@ -528,6 +528,7 @@ Partial Class M3UEdit
         Me.CancelButton = Me.btnExit
         Me.ClientSize = New System.Drawing.Size(928, 440)
         Me.Controls.Add(Me.splitContainerMain)
+        Me.Icon = Global.M3UEdit.Resources.M3UEdit
         Me.Name = "M3UEdit"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "M3UEdit"
