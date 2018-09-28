@@ -38,6 +38,8 @@ Public Partial Class M3UEdit
                 
                 LoadFile(ofdSelectFile.FileName)
             End If
+        Else
+            LoadFile(txtM3UFile.Text)
         End If
     End Sub
     
@@ -81,6 +83,7 @@ Public Partial Class M3UEdit
     
     Sub LoadFile(path As String)
         If Exists(path) Then
+            lstFiles.Sorting = SortOrder.None
             lstFiles.Items.Clear()
             
             Dim tmpListViewItem As New ListViewItem(New String() {"", "", "", "", "", ""})
@@ -157,6 +160,12 @@ Public Partial Class M3UEdit
         End If
     End Sub
     
+    ' ======================= Save File =======================
+    
+    Sub SaveFile(path As String)
+        
+    End Sub
+    
     ' ======================= Loading a track into edit section =======================
     
     Sub PopulateEditSection() Handles lstFiles.SelectedIndexChanged
@@ -228,7 +237,9 @@ Public Partial Class M3UEdit
     
     Sub lstFiles_ColumnClick(sender As Object, e As ColumnClickEventArgs) Handles lstFiles.ColumnClick
         If e.Column = 0 Then
+            lstFiles.BeginUpdate()
             lstFiles.Sorting = DirectCast(IIf(lstFiles.Sorting = SortOrder.Ascending, SortOrder.Descending, SortOrder.Ascending), SortOrder)
+            lstFiles.EndUpdate()
         Else
             'lstFiles.Sort(e.Column)
         End If
