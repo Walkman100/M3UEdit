@@ -73,14 +73,14 @@ Public Class TimeConverter
         End If
         
         If seconds > 60 Then
-            tmpTxtInText &= (seconds \ 60).ToString & ":"
+            tmpTxtInText &= (seconds \ 60).ToString("D2") & ":"
             seconds = seconds - ((seconds \ 60) * 60)
             
         ElseIf tmpTxtInText <> "" ' we have hours but not minutes
-            tmpTxtInText &= "0:"
+            tmpTxtInText &= "00:"
         End If
         
-        tmpTxtInText &= seconds.ToString
+        tmpTxtInText &= seconds.ToString("D2") ' adds a leading 0 if necessary
         
         txtIn.Text = tmpTxtInText
         
