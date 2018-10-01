@@ -336,13 +336,22 @@ Public Partial Class M3UEdit
     
     ' ======================= Editing Track Properties =======================
     
+    '  HACK(ish): Make sure properties aren't overwritten when selecting multiple items...
+    Dim allowWrite As Boolean = False
+    Sub lstFiles_KeyOrMouseDown() Handles lstFiles.MouseDown, lstFiles.KeyDown
+        allowWrite = False
+    End Sub
+    Sub lstFiles_KeyOrMouseUp() Handles lstFiles.MouseUp, lstFiles.KeyUp
+        allowWrite = True
+    End Sub
+    
     '  Track File
     Sub txtFile_TextChanged() Handles txtFile.TextChanged
         If lstFiles.SelectedItems.Count = 0 Then
             ' ignore
         ElseIf lstFiles.SelectedItems.Count = 1 Then
             lstFiles.SelectedItems(0).Text = txtFile.Text
-        Else
+        ElseIf allowWrite Then
             For Each item As ListViewItem In lstFiles.SelectedItems
                 item.Text = txtFile.Text
             Next
@@ -426,7 +435,7 @@ Public Partial Class M3UEdit
             ' ignore
         ElseIf lstFiles.SelectedItems.Count = 1 Then
             lstFiles.SelectedItems(0).SubItems.Item(1).Text = numLength.Value.ToString
-        Else
+        ElseIf allowWrite Then
             For Each item As ListViewItem In lstFiles.SelectedItems
                 item.SubItems.Item(1).Text = numLength.Value.ToString
             Next
@@ -446,7 +455,7 @@ Public Partial Class M3UEdit
             ' ignore
         ElseIf lstFiles.SelectedItems.Count = 1 Then
             lstFiles.SelectedItems(0).SubItems.Item(2).Text = txtTitle.Text
-        Else
+        ElseIf allowWrite Then
             For Each item As ListViewItem In lstFiles.SelectedItems
                 item.SubItems.Item(2).Text = txtTitle.Text
             Next
@@ -458,7 +467,7 @@ Public Partial Class M3UEdit
             ' ignore
         ElseIf lstFiles.SelectedItems.Count = 1 Then
             lstFiles.SelectedItems(0).SubItems.Item(3).Text = txtArtist.Text
-        Else
+        ElseIf allowWrite Then
             For Each item As ListViewItem In lstFiles.SelectedItems
                 item.SubItems.Item(3).Text = txtArtist.Text
             Next
@@ -474,7 +483,7 @@ Public Partial Class M3UEdit
         btnStartEndSetLength.Enabled = (chkStartTime.Checked And chkEndTime.Checked)
         
         If lstFiles.SelectedItems.Count <> 0 Then
-            If chkStartTime.Checked Then
+            If chkStartTime.Checked Then ' "If allowWrite Then" not needed here because of .Click event handled
                 For Each item As ListViewItem In lstFiles.SelectedItems
                     item.SubItems.Item(4).Text = numStartTime.Value.ToString()
                 Next
@@ -491,7 +500,7 @@ Public Partial Class M3UEdit
             ' ignore
         ElseIf lstFiles.SelectedItems.Count = 1 Then
             lstFiles.SelectedItems(0).SubItems.Item(4).Text = numStartTime.Value.ToString()
-        Else
+        ElseIf allowWrite Then
             For Each item As ListViewItem In lstFiles.SelectedItems
                 item.SubItems.Item(4).Text = numStartTime.Value.ToString()
             Next
@@ -529,7 +538,7 @@ Public Partial Class M3UEdit
             ' ignore
         ElseIf lstFiles.SelectedItems.Count = 1 Then
             lstFiles.SelectedItems(0).SubItems.Item(5).Text = numEndTime.Value.ToString()
-        Else
+        ElseIf allowWrite Then
             For Each item As ListViewItem In lstFiles.SelectedItems
                 item.SubItems.Item(5).Text = numEndTime.Value.ToString()
             Next
