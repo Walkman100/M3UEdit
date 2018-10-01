@@ -349,7 +349,10 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub btnLengthConvert_Click(sender As Object, e As EventArgs) Handles btnLengthConvert.Click
-        Throw New NotImplementedException
+        Dim returnSeconds As Integer = Decimal.ToInt32(numLength.Value)
+        If TimeConverter.SetAndShow(returnSeconds) Then
+            numLength.Value = returnSeconds
+        End If
     End Sub
     
     '  Track Info
@@ -389,7 +392,10 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub btnStartTimeConvert_Click(sender As Object, e As EventArgs) Handles btnStartTimeConvert.Click
-        Throw New NotImplementedException
+        Dim returnSeconds As Integer = Decimal.ToInt32(numStartTime.Value)
+        If TimeConverter.SetAndShow(returnSeconds) Then
+            numStartTime.Value = returnSeconds
+        End If
     End Sub
     
     Sub chkEndTime_CheckedChanged() Handles chkEndTime.Click ' use Click for same reason as above
@@ -414,7 +420,10 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub btnEndTimeConvert_Click(sender As Object, e As EventArgs) Handles btnEndTimeConvert.Click
-        Throw New NotImplementedException
+        Dim returnSeconds As Integer = Decimal.ToInt32(numEndTime.Value)
+        If TimeConverter.SetAndShow(returnSeconds) Then
+            numEndTime.Value = returnSeconds
+        End If
     End Sub
     
     Sub btnEndTimeGet_Click(sender As Object, e As EventArgs) Handles btnEndTimeGet.Click
