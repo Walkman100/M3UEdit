@@ -355,8 +355,51 @@ Public Partial Class M3UEdit
     
     '  Track Length
     Sub btnLengthAuto_Click(sender As Object, e As EventArgs) Handles btnLengthAuto.Click
-        Throw New NotImplementedException
+        ' check for NAudio
+        Try
+            Dim tmp = GetMediaDuration("")
+        Catch ex As ArgumentException ' NAudio loaded successfully
+        Catch ex As IO.FileNotFoundException
+            If ex.Message.StartsWith("Could not load file or assembly 'NAudio") Then
+                MsgBox("Could not load NAudio! Make sure NAudio.dll is in the same directory as M3UEdit.exe, and restart M3UEdit.", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+        End Try
+        
+        If lstFiles.SelectedItems.Count <> 0 Then
+            Dim tmpFileLocation As String = txtFile.Text       ' Replace("/", "\") on windows, Replace("\", "/") on linux
+            tmpFileLocation = tmpFileLocation.Replace(IO.Path.AltDirectorySeparatorChar, IO.Path.DirectorySeparatorChar)
+            
+            If txtM3UFile.Text <> "" Then
+                Dim tmpNewCD As String = txtM3UFile.Text.Remove(txtM3UFile.Text.LastIndexOf(IO.Path.DirectorySeparatorChar))
+                If tmpNewCD.EndsWith(IO.Path.VolumeSeparatorChar) Then tmpNewCD &= IO.Path.DirectorySeparatorChar
+                Environment.CurrentDirectory = tmpNewCD
+            End If
+            
+            If Exists(tmpFileLocation) Then
+                Dim tmpDuration As Double = GetMediaDuration(tmpFileLocation)
+                Dim tmpDurationTruncated As Decimal = Decimal.Truncate(CType(tmpDuration, Decimal))  ' Use truncate to simply strip off decimal places instead of rounding
+                
+                'MsgBox("Got: " & tmpDuration & vbNewLine & "Truncated to: " & tmpDurationTruncated)
+                numLength.Value = tmpDurationTruncated
+            Else
+                MsgBox("File """ & tmpFileLocation & """ not found!" & vbNewLine & "(Current Directory: """ & Environment.CurrentDirectory & """)", MsgBoxStyle.Exclamation)
+            End If
+        End If
     End Sub
+    
+    ' thanks to https://stackoverflow.com/a/13269914/2999220
+    Private Function GetMediaDuration(MediaFilename As String) As Double
+        Dim duration As Double = 0
+        Using fs As IO.FileStream = OpenRead(MediaFilename)
+            Dim frame As NAudio.Wave.Mp3Frame = NAudio.Wave.Mp3Frame.LoadFromStream(fs)
+            While frame IsNot Nothing
+                duration += CDbl(frame.SampleCount) / CDbl(frame.SampleRate)
+                frame = NAudio.Wave.Mp3Frame.LoadFromStream(fs)
+            End While
+        End Using
+        Return duration
+    End Function
     
     Sub numLength_ValueChanged(sender As Object, e As EventArgs) Handles numLength.ValueChanged
         If lstFiles.SelectedItems.Count = 0 Then
