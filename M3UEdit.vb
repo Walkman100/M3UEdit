@@ -227,8 +227,10 @@ Public Partial Class M3UEdit
                             writer.Write(" - ")
                         End If
                         
-                        writer.WriteLine(trackItem.SubItems.Item(2).Text)
+                        writer.Write(trackItem.SubItems.Item(2).Text)
                     End If
+                    
+                    writer.WriteLine()
                 End If
                 
                 ' start time
@@ -545,7 +547,63 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub btnTestSelected_Click(sender As Object, e As EventArgs) Handles btnTestSelected.Click
-        Throw New NotImplementedException
+        If lstFiles.SelectedItems.Count <> 0 Then     ' SaveFile(path) except only selected item, and to %tmp%
+            If txtM3UFile.Text <> "" Then
+                Dim tmpNewCD As String = txtM3UFile.Text.Remove(txtM3UFile.Text.LastIndexOf(IO.Path.DirectorySeparatorChar))
+                If tmpNewCD.EndsWith(IO.Path.VolumeSeparatorChar) Then tmpNewCD &= IO.Path.DirectorySeparatorChar
+                Environment.CurrentDirectory = tmpNewCD
+            End If
+            
+            Dim tmpFilePath = IO.Path.GetRandomFileName() & ".m3u"
+            
+            Using writer As IO.StreamWriter = New IO.StreamWriter(tmpFilePath, False, System.Text.Encoding.UTF8)
+                writer.WriteLine("#EXTM3U")
+                
+                If lstFiles.SelectedItems(0).SubItems.Item(1).Text <> "" Or lstFiles.SelectedItems(0).SubItems.Item(2).Text <> "" Or lstFiles.SelectedItems(0).SubItems.Item(3).Text <> "" Then
+                    writer.Write("#EXTINF:")
+                    
+                    '<length>,Artist - Title
+                    If lstFiles.SelectedItems(0).SubItems.Item(1).Text <> "" Then
+                        writer.Write(lstFiles.SelectedItems(0).SubItems.Item(1).Text)
+                    Else
+                        writer.Write(0)
+                    End If
+                    
+                    If lstFiles.SelectedItems(0).SubItems.Item(2).Text <> "" Or lstFiles.SelectedItems(0).SubItems.Item(3).Text <> "" Then
+                        writer.Write(",")
+                        
+                        If lstFiles.SelectedItems(0).SubItems.Item(3).Text <> "" Then
+                            writer.Write(lstFiles.SelectedItems(0).SubItems.Item(3).Text)
+                            writer.Write(" - ")
+                        End If
+                        
+                        writer.Write(lstFiles.SelectedItems(0).SubItems.Item(2).Text)
+                    End If
+                    
+                    writer.WriteLine()
+                End If
+                
+                ' start time
+                If lstFiles.SelectedItems(0).SubItems.Item(4).Text <> "" Then
+                    writer.WriteLine("#EXTVLCOPT:start-time=" & lstFiles.SelectedItems(0).SubItems.Item(4).Text)
+                End If
+                ' stop time
+                If lstFiles.SelectedItems(0).SubItems.Item(5).Text <> "" Then
+                    writer.WriteLine("#EXTVLCOPT:stop-time=" & lstFiles.SelectedItems(0).SubItems.Item(5).Text)
+                End If
+                
+                ' file
+                writer.WriteLine(lstFiles.SelectedItems(0).Text)
+            End Using
+            
+            Process.Start(tmpFilePath)
+            
+            Threading.Thread.Sleep(500)
+            
+            Delete(tmpFilePath)
+        Else
+            btnTestSelected.Enabled = False
+        End If
     End Sub
     
     Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
