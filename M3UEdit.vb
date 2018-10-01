@@ -338,8 +338,14 @@ Public Partial Class M3UEdit
     
     '  Track File
     Sub txtFile_TextChanged() Handles txtFile.TextChanged
-        If lstFiles.SelectedItems.Count <> 0 Then
+        If lstFiles.SelectedItems.Count = 0 Then
+            ' ignore
+        ElseIf lstFiles.SelectedItems.Count = 1 Then
             lstFiles.SelectedItems(0).Text = txtFile.Text
+        Else
+            For Each item As ListViewItem In lstFiles.SelectedItems
+                item.Text = txtFile.Text
+            Next
         End If
     End Sub
     
@@ -367,14 +373,26 @@ Public Partial Class M3UEdit
     
     '  Track Info
     Sub txtTitle_TextChanged(sender As Object, e As EventArgs) Handles txtTitle.TextChanged
-        If lstFiles.SelectedItems.Count <> 0 Then
+        If lstFiles.SelectedItems.Count = 0 Then
+            ' ignore
+        ElseIf lstFiles.SelectedItems.Count = 1 Then
             lstFiles.SelectedItems(0).SubItems.Item(2).Text = txtTitle.Text
+        Else
+            For Each item As ListViewItem In lstFiles.SelectedItems
+                item.SubItems.Item(2).Text = txtTitle.Text
+            Next
         End If
     End Sub
     
     Sub txtArtist_TextChanged(sender As Object, e As EventArgs) Handles txtArtist.TextChanged
-        If lstFiles.SelectedItems.Count <> 0 Then
+        If lstFiles.SelectedItems.Count = 0 Then
+            ' ignore
+        ElseIf lstFiles.SelectedItems.Count = 1 Then
             lstFiles.SelectedItems(0).SubItems.Item(3).Text = txtArtist.Text
+        Else
+            For Each item As ListViewItem In lstFiles.SelectedItems
+                item.SubItems.Item(3).Text = txtArtist.Text
+            Next
         End If
     End Sub
     

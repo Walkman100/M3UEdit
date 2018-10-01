@@ -93,7 +93,6 @@ Partial Class M3UEdit
         Me.lstFiles.GridLines = true
         Me.lstFiles.HideSelection = false
         Me.lstFiles.Location = New System.Drawing.Point(0, 0)
-        Me.lstFiles.MultiSelect = false
         Me.lstFiles.Name = "lstFiles"
         Me.lstFiles.Size = New System.Drawing.Size(455, 440)
         Me.lstFiles.TabIndex = 0
