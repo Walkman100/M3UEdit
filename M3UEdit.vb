@@ -5,6 +5,7 @@ Option Infer On
 
 Imports System.IO.File
 Imports System.Runtime.CompilerServices
+Imports System.Security.Principal ' for checking if running as admin
 
 Public Partial Class M3UEdit
     Public Sub New()
@@ -22,6 +23,9 @@ Public Partial Class M3UEdit
                 Process.Start(Application.StartupPath & "\" & Process.GetCurrentProcess.ProcessName & ".exe", """" & s & """")
             End If
         Next
+        If New WindowsPrincipal(WindowsIdentity.GetCurrent).IsInRole(WindowsBuiltInRole.Administrator) Then _
+          Me.Text = "[Admin] M3UEdit" Else _
+          Me.Text = "M3UEdit"
         
         timerBrowseDelay.Start
     End Sub
@@ -85,6 +89,10 @@ Public Partial Class M3UEdit
     
     Sub LoadFile(path As String)
         If Exists(path) Then
+            If New WindowsPrincipal(WindowsIdentity.GetCurrent).IsInRole(WindowsBuiltInRole.Administrator) Then _
+              Me.Text = "[Admin] M3UEdit: " & path Else _
+              Me.Text = "M3UEdit: " & path
+            
             lstFiles.Sorting = SortOrder.None
             lstFiles.Items.Clear()
             
@@ -547,7 +555,7 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub btnTestSelected_Click(sender As Object, e As EventArgs) Handles btnTestSelected.Click
-        If lstFiles.SelectedItems.Count <> 0 Then     ' SaveFile(path) except only selected item, and to %tmp%
+        If lstFiles.SelectedItems.Count <> 0 Then
             If txtM3UFile.Text <> "" Then
                 Dim tmpNewCD As String = txtM3UFile.Text.Remove(txtM3UFile.Text.LastIndexOf(IO.Path.DirectorySeparatorChar))
                 If tmpNewCD.EndsWith(IO.Path.VolumeSeparatorChar) Then tmpNewCD &= IO.Path.DirectorySeparatorChar
@@ -556,6 +564,7 @@ Public Partial Class M3UEdit
             
             Dim tmpFilePath = IO.Path.GetRandomFileName() & ".m3u"
             
+            ' SaveFile(path) except only selected item, and to random file
             Using writer As IO.StreamWriter = New IO.StreamWriter(tmpFilePath, False, System.Text.Encoding.UTF8)
                 writer.WriteLine("#EXTM3U")
                 
