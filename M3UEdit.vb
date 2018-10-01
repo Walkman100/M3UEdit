@@ -608,50 +608,52 @@ Public Partial Class M3UEdit
             
             Dim tmpFilePath = IO.Path.GetRandomFileName() & ".m3u"
             
-            ' SaveFile(path) except only selected item, and to random file
+            ' SaveFile(path) except only selected items, and to random file
             Using writer As IO.StreamWriter = New IO.StreamWriter(tmpFilePath, False, System.Text.Encoding.UTF8)
                 writer.WriteLine("#EXTM3U")
                 
-                If lstFiles.SelectedItems(0).SubItems.Item(1).Text <> "" Or lstFiles.SelectedItems(0).SubItems.Item(2).Text <> "" Or lstFiles.SelectedItems(0).SubItems.Item(3).Text <> "" Then
-                    writer.Write("#EXTINF:")
-                    
-                    '<length>,Artist - Title
-                    If lstFiles.SelectedItems(0).SubItems.Item(1).Text <> "" Then
-                        writer.Write(lstFiles.SelectedItems(0).SubItems.Item(1).Text)
-                    Else
-                        writer.Write(0)
-                    End If
-                    
-                    If lstFiles.SelectedItems(0).SubItems.Item(2).Text <> "" Or lstFiles.SelectedItems(0).SubItems.Item(3).Text <> "" Then
-                        writer.Write(",")
+                For Each trackItem As ListViewItem In lstFiles.SelectedItems
+                    If trackItem.SubItems.Item(1).Text <> "" Or trackItem.SubItems.Item(2).Text <> "" Or trackItem.SubItems.Item(3).Text <> "" Then
+                        writer.Write("#EXTINF:")
                         
-                        If lstFiles.SelectedItems(0).SubItems.Item(3).Text <> "" Then
-                            writer.Write(lstFiles.SelectedItems(0).SubItems.Item(3).Text)
-                            writer.Write(" - ")
+                        '<length>,Artist - Title
+                        If trackItem.SubItems.Item(1).Text <> "" Then
+                            writer.Write(trackItem.SubItems.Item(1).Text)
+                        Else
+                            writer.Write(0)
                         End If
                         
-                        writer.Write(lstFiles.SelectedItems(0).SubItems.Item(2).Text)
+                        If trackItem.SubItems.Item(2).Text <> "" Or trackItem.SubItems.Item(3).Text <> "" Then
+                            writer.Write(",")
+                            
+                            If trackItem.SubItems.Item(3).Text <> "" Then
+                                writer.Write(trackItem.SubItems.Item(3).Text)
+                                writer.Write(" - ")
+                            End If
+                            
+                            writer.Write(trackItem.SubItems.Item(2).Text)
+                        End If
+                        
+                        writer.WriteLine()
                     End If
                     
-                    writer.WriteLine()
-                End If
-                
-                ' start time
-                If lstFiles.SelectedItems(0).SubItems.Item(4).Text <> "" Then
-                    writer.WriteLine("#EXTVLCOPT:start-time=" & lstFiles.SelectedItems(0).SubItems.Item(4).Text)
-                End If
-                ' stop time
-                If lstFiles.SelectedItems(0).SubItems.Item(5).Text <> "" Then
-                    writer.WriteLine("#EXTVLCOPT:stop-time=" & lstFiles.SelectedItems(0).SubItems.Item(5).Text)
-                End If
-                
-                ' file
-                writer.WriteLine(lstFiles.SelectedItems(0).Text)
+                    ' start time
+                    If trackItem.SubItems.Item(4).Text <> "" Then
+                        writer.WriteLine("#EXTVLCOPT:start-time=" & trackItem.SubItems.Item(4).Text)
+                    End If
+                    ' stop time
+                    If trackItem.SubItems.Item(5).Text <> "" Then
+                        writer.WriteLine("#EXTVLCOPT:stop-time=" & trackItem.SubItems.Item(5).Text)
+                    End If
+                    
+                    ' file
+                    writer.WriteLine(trackItem.Text)
+                Next
             End Using
             
             Process.Start(tmpFilePath)
             
-            Threading.Thread.Sleep(500)
+            Threading.Thread.Sleep(1000)
             
             Delete(tmpFilePath)
         Else
