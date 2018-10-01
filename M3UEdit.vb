@@ -359,8 +359,14 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub numLength_ValueChanged(sender As Object, e As EventArgs) Handles numLength.ValueChanged
-        If lstFiles.SelectedItems.Count <> 0 Then
+        If lstFiles.SelectedItems.Count = 0 Then
+            ' ignore
+        ElseIf lstFiles.SelectedItems.Count = 1 Then
             lstFiles.SelectedItems(0).SubItems.Item(1).Text = numLength.Value.ToString
+        Else
+            For Each item As ListViewItem In lstFiles.SelectedItems
+                item.SubItems.Item(1).Text = numLength.Value.ToString
+            Next
         End If
     End Sub
     
@@ -406,16 +412,26 @@ Public Partial Class M3UEdit
         
         If lstFiles.SelectedItems.Count <> 0 Then
             If chkStartTime.Checked Then
-                lstFiles.SelectedItems(0).SubItems.Item(4).Text = numStartTime.Value.ToString()
+                For Each item As ListViewItem In lstFiles.SelectedItems
+                    item.SubItems.Item(4).Text = numStartTime.Value.ToString()
+                Next
             Else
-                lstFiles.SelectedItems(0).SubItems.Item(4).Text = ""
+                For Each item As ListViewItem In lstFiles.SelectedItems
+                    item.SubItems.Item(4).Text = ""
+                Next
             End If
         End If
     End Sub
     
     Sub numStartTime_ValueChanged(sender As Object, e As EventArgs) Handles numStartTime.ValueChanged
-        If lstFiles.SelectedItems.Count <> 0 Then
+        If lstFiles.SelectedItems.Count = 0 Then
+            ' ignore
+        ElseIf lstFiles.SelectedItems.Count = 1 Then
             lstFiles.SelectedItems(0).SubItems.Item(4).Text = numStartTime.Value.ToString()
+        Else
+            For Each item As ListViewItem In lstFiles.SelectedItems
+                item.SubItems.Item(4).Text = numStartTime.Value.ToString()
+            Next
         End If
     End Sub
     
@@ -434,16 +450,26 @@ Public Partial Class M3UEdit
         
         If lstFiles.SelectedItems.Count <> 0 Then
             If chkEndTime.Checked Then
-                lstFiles.SelectedItems(0).SubItems.Item(5).Text = numEndTime.Value.ToString()
+                For Each item As ListViewItem In lstFiles.SelectedItems
+                    item.SubItems.Item(5).Text = numEndTime.Value.ToString()
+                Next
             Else
-                lstFiles.SelectedItems(0).SubItems.Item(5).Text = ""
+                For Each item As ListViewItem In lstFiles.SelectedItems
+                    item.SubItems.Item(5).Text = ""
+                Next
             End If
         End If
     End Sub
     
     Sub numEndTime_ValueChanged(sender As Object, e As EventArgs) Handles numEndTime.ValueChanged
-        If lstFiles.SelectedItems.Count <> 0 Then
+        If lstFiles.SelectedItems.Count = 0 Then
+            ' ignore
+        ElseIf lstFiles.SelectedItems.Count = 1 Then
             lstFiles.SelectedItems(0).SubItems.Item(5).Text = numEndTime.Value.ToString()
+        Else
+            For Each item As ListViewItem In lstFiles.SelectedItems
+                item.SubItems.Item(5).Text = numEndTime.Value.ToString()
+            Next
         End If
     End Sub
     
