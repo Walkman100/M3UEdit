@@ -65,30 +65,24 @@ Public Class TimeConverter
     Function SetAndShow(ByRef seconds As Integer) As Boolean
         txtIn.Text = ""
         
+        Dim tmpTxtInText = ""
+        
         If seconds > 3600 Then
-            txtHours.Text = (seconds \ 3600).ToString  ' \ is / but floor the result
+            tmpTxtInText = (seconds \ 3600).ToString & ":"  ' \ is / but floor the result
             seconds = seconds - ((seconds \ 3600) * 3600)
         End If
         
         If seconds > 60 Then
-            txtMinutes.Text = (seconds \ 60).ToString
+            tmpTxtInText &= (seconds \ 60).ToString & ":"
             seconds = seconds - ((seconds \ 60) * 60)
+            
+        ElseIf tmpTxtInText <> "" ' we have hours but not minutes
+            tmpTxtInText &= "0:"
         End If
         
-        txtSeconds.Text = seconds.ToString
+        tmpTxtInText &= seconds.ToString
         
-        Dim txtInCombined = ""
-        If txtHours.Text <> "" Then
-            txtInCombined = txtHours.Text & ":"
-            txtInCombined &= txtMinutes.Text & ":"
-        Else
-            If txtMinutes.Text <> "" Then
-                txtInCombined = txtMinutes.Text & ":"
-            End If
-        End If
-        
-        txtInCombined &= txtSeconds.Text
-        txtIn.Text = txtInCombined
+        txtIn.Text = tmpTxtInText
         
         If ShowDialog() = DialogResult.OK Then
             seconds = Integer.Parse(txtOut.Text)
