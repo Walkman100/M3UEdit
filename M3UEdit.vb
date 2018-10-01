@@ -211,24 +211,24 @@ Public Partial Class M3UEdit
             For Each trackItem As ListViewItem In lstFiles.Items
                 If trackItem.SubItems.Item(1).Text <> "" Or trackItem.SubItems.Item(2).Text <> "" Or trackItem.SubItems.Item(3).Text <> "" Then
                     writer.Write("#EXTINF:")
-                End If
-                
-                '<length>,Artist - Title
-                If trackItem.SubItems.Item(1).Text <> "" Then
-                    writer.Write(trackItem.SubItems.Item(1).Text)
-                Else
-                    writer.Write(0)
-                End If
-                
-                If trackItem.SubItems.Item(2).Text <> "" Or trackItem.SubItems.Item(3).Text <> "" Then
-                    writer.Write(",")
                     
-                    If trackItem.SubItems.Item(3).Text <> "" Then
-                        writer.Write(trackItem.SubItems.Item(3).Text)
-                        writer.Write(" - ")
+                    '<length>,Artist - Title
+                    If trackItem.SubItems.Item(1).Text <> "" Then
+                        writer.Write(trackItem.SubItems.Item(1).Text)
+                    Else
+                        writer.Write(0)
                     End If
                     
-                    writer.WriteLine(trackItem.SubItems.Item(2).Text)
+                    If trackItem.SubItems.Item(2).Text <> "" Or trackItem.SubItems.Item(3).Text <> "" Then
+                        writer.Write(",")
+                        
+                        If trackItem.SubItems.Item(3).Text <> "" Then
+                            writer.Write(trackItem.SubItems.Item(3).Text)
+                            writer.Write(" - ")
+                        End If
+                        
+                        writer.WriteLine(trackItem.SubItems.Item(2).Text)
+                    End If
                 End If
                 
                 ' start time
@@ -445,8 +445,8 @@ Public Partial Class M3UEdit
     ' ======================= Standalone Buttons =======================
     
     Sub btnMoveUp_Click(sender As Object, e As EventArgs) Handles btnMoveUp.Click
-        Try
-            If lstFiles.SelectedItems.Count > 0 Then
+        If lstFiles.SelectedItems.Count <> 0 Then
+            Try
                 lstFiles.Sorting = SortOrder.None
                 Dim selected As ListViewItem = lstFiles.SelectedItems(0)
                 Dim selectedIndex As Integer = selected.Index
@@ -463,17 +463,17 @@ Public Partial Class M3UEdit
                 lstFiles.EndUpdate()
                 
                 PopulateEditSection()
-            Else
-                btnMoveUp.Enabled = False
-            End If
-        Catch ex As Exception
-            MsgBox("There was an error moving the item: " & ex.Message, MsgBoxStyle.Exclamation)
-        End Try
+            Catch ex As Exception
+                MsgBox("There was an error moving the item: " & ex.Message, MsgBoxStyle.Exclamation)
+            End Try
+        Else
+            btnMoveUp.Enabled = False
+        End If
     End Sub
     
     Sub btnMoveDown_Click(sender As Object, e As EventArgs) Handles btnMoveDown.Click
-        Try
-            If lstFiles.SelectedItems.Count > 0 Then
+        If lstFiles.SelectedItems.Count <> 0 Then
+            Try
                 lstFiles.Sorting = SortOrder.None
                 Dim selected As ListViewItem = lstFiles.SelectedItems(0)
                 Dim selectedIndex As Integer = selected.Index
@@ -490,12 +490,12 @@ Public Partial Class M3UEdit
                 lstFiles.EndUpdate()
                 
                 PopulateEditSection()
-            Else
-                btnMoveDown.Enabled = False
-            End If
-        Catch ex As Exception
-            MsgBox("There was an error moving the item: " & ex.Message, MsgBoxStyle.Exclamation)
-        End Try
+            Catch ex As Exception
+                MsgBox("There was an error moving the item: " & ex.Message, MsgBoxStyle.Exclamation)
+            End Try
+        Else
+            btnMoveDown.Enabled = False
+        End If
     End Sub
     
     Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
@@ -507,12 +507,14 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub btnRemove_Click(sender As Object, e As EventArgs) Handles btnRemove.Click
-        If lstFiles.SelectedItems.Count > 1 Then
+        If lstFiles.SelectedItems.Count = 0 Then
+            btnRemove.Enabled = False
+        ElseIf lstFiles.SelectedItems.Count = 1 Then
+            lstFiles.SelectedItems(0).Remove
+        Else
             For Each item As ListViewItem In lstFiles.SelectedItems
                 item.Remove
             Next
-        Else
-            lstFiles.SelectedItems(0).Remove
         End If
         PopulateEditSection()
     End Sub
