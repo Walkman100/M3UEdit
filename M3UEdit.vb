@@ -366,7 +366,7 @@ Public Partial Class M3UEdit
             End If
         End Try
         
-        If lstFiles.SelectedItems.Count <> 0 Then
+        If lstFiles.SelectedItems.Count = 1 Then
             Dim tmpFileLocation As String = txtFile.Text       ' Replace("/", "\") on windows, Replace("\", "/") on linux
             tmpFileLocation = tmpFileLocation.Replace(IO.Path.AltDirectorySeparatorChar, IO.Path.DirectorySeparatorChar)
             
@@ -385,6 +385,26 @@ Public Partial Class M3UEdit
             Else
                 MsgBox("File """ & tmpFileLocation & """ not found!" & vbNewLine & "(Current Directory: """ & Environment.CurrentDirectory & """)", MsgBoxStyle.Exclamation)
             End If
+        ElseIf lstFiles.SelectedItems.Count <> 0 Then
+            For Each trackItem As ListViewItem In lstFiles.SelectedItems
+                Dim tmpFileLocation As String = trackItem.Text
+                tmpFileLocation = tmpFileLocation.Replace(IO.Path.AltDirectorySeparatorChar, IO.Path.DirectorySeparatorChar)
+                
+                If txtM3UFile.Text <> "" Then
+                    Dim tmpNewCD As String = txtM3UFile.Text.Remove(txtM3UFile.Text.LastIndexOf(IO.Path.DirectorySeparatorChar))
+                    If tmpNewCD.EndsWith(IO.Path.VolumeSeparatorChar) Then tmpNewCD &= IO.Path.DirectorySeparatorChar
+                    Environment.CurrentDirectory = tmpNewCD
+                End If
+                
+                If Exists(tmpFileLocation) Then
+                    Dim tmpDuration As Double = GetMediaDuration(tmpFileLocation)
+                    Dim tmpDurationTruncated As Decimal = Decimal.Truncate(CType(tmpDuration, Decimal))
+                    
+                    trackItem.SubItems.Item(1).Text = tmpDurationTruncated.ToString()
+                Else
+                    MsgBox("File """ & tmpFileLocation & """ not found!" & vbNewLine & "(Current Directory: """ & Environment.CurrentDirectory & """)", MsgBoxStyle.Exclamation)
+                End If
+            Next
         End If
     End Sub
     
