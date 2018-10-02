@@ -23,6 +23,7 @@ Public Partial Class M3UEdit
                 Process.Start(Application.StartupPath & "\" & Process.GetCurrentProcess.ProcessName & ".exe", """" & s & """")
             End If
         Next
+        lblVersion.Text = My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Build
         If New WindowsPrincipal(WindowsIdentity.GetCurrent).IsInRole(WindowsBuiltInRole.Administrator) Then _
           Me.Text = "[Admin] M3UEdit" Else _
           Me.Text = "M3UEdit"
@@ -368,6 +369,7 @@ Public Partial Class M3UEdit
         End If
         
         If PathEdit.SetAndShow(returnPath, Environment.CurrentDirectory) Then
+            txtFile.Text = "" ' clear existing value so we can set multiple items to the same path
             txtFile.Text = returnPath
         End If
     End Sub

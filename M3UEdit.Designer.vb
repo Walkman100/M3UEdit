@@ -70,6 +70,7 @@ Partial Class M3UEdit
         Me.timerBrowseDelay = New System.Windows.Forms.Timer(Me.components)
         Me.ofdSelectFile = New System.Windows.Forms.OpenFileDialog()
         Me.sfdSaveAs = New System.Windows.Forms.SaveFileDialog()
+        Me.lblVersion = New System.Windows.Forms.Label()
         CType(Me.splitContainerMain,System.ComponentModel.ISupportInitialize).BeginInit
         Me.splitContainerMain.Panel1.SuspendLayout
         Me.splitContainerMain.Panel2.SuspendLayout
@@ -166,6 +167,7 @@ Partial Class M3UEdit
         '
         'splitContainerMain.Panel2
         '
+        Me.splitContainerMain.Panel2.Controls.Add(Me.lblVersion)
         Me.splitContainerMain.Panel2.Controls.Add(Me.btnExit)
         Me.splitContainerMain.Panel2.Controls.Add(Me.btnMoveDown)
         Me.splitContainerMain.Panel2.Controls.Add(Me.btnMoveUp)
@@ -519,6 +521,17 @@ Partial Class M3UEdit
         Me.sfdSaveAs.Filter = "M3U Playlists|*.m3u|All Files|*.*"
         Me.sfdSaveAs.Title = "Select Save Location"
         '
+        'lblVersion
+        '
+        Me.lblVersion.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.lblVersion.AutoSize = true
+        Me.lblVersion.Font = New System.Drawing.Font("Microsoft Sans Serif", 6!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblVersion.Location = New System.Drawing.Point(448, 431)
+        Me.lblVersion.Name = "lblVersion"
+        Me.lblVersion.Size = New System.Drawing.Size(21, 9)
+        Me.lblVersion.TabIndex = 14
+        Me.lblVersion.Text = "1.0.0"
+        '
         'M3UEdit
         '
         Me.AcceptButton = Me.btnSave
@@ -533,6 +546,7 @@ Partial Class M3UEdit
         Me.Text = "M3UEdit"
         Me.splitContainerMain.Panel1.ResumeLayout(false)
         Me.splitContainerMain.Panel2.ResumeLayout(false)
+        Me.splitContainerMain.Panel2.PerformLayout
         CType(Me.splitContainerMain,System.ComponentModel.ISupportInitialize).EndInit
         Me.splitContainerMain.ResumeLayout(false)
         Me.grpCustomTimes.ResumeLayout(false)
@@ -548,6 +562,7 @@ Partial Class M3UEdit
         Me.grpM3UFile.PerformLayout
         Me.ResumeLayout(false)
     End Sub
+    Private lblVersion As System.Windows.Forms.Label
     Private sfdSaveAs As System.Windows.Forms.SaveFileDialog
     Private ofdSelectFile As System.Windows.Forms.OpenFileDialog
     Private WithEvents btnExit As System.Windows.Forms.Button
