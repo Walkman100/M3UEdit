@@ -1,4 +1,11 @@
-﻿Public Partial Class PathEdit
+﻿Option Explicit On
+Option Strict On
+Option Compare Binary
+Option Infer On
+
+Imports System.IO
+
+Public Partial Class PathEdit
     Public Sub New()
         Me.InitializeComponent()
     End Sub
@@ -29,7 +36,7 @@
     End Sub
     
     Sub txtDecoded_TextChanged() Handles txtDecoded.TextChanged
-        If IO.File.Exists(txtDecoded.Text) Then
+        If File.Exists(txtDecoded.Text) Then
             lblFileExistence.Text = "File Exists"
             pbxFileExistence.Image = Resources.accept
         Else
@@ -47,7 +54,7 @@
     End Sub
     
     Sub btnBrowse_Click() Handles btnBrowse.Click
-        ofdSelectFile.FileName = txtDecoded.Text.Replace(IO.Path.AltDirectorySeparatorChar, IO.Path.DirectorySeparatorChar)
+        ofdSelectFile.FileName = txtDecoded.Text.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar)
         ofdSelectFile.InitialDirectory = txtCD.Text ' this should have the correct seperator characters as it's set from Environment.CurrentDirectory
         
         If ofdSelectFile.ShowDialog() = DialogResult.OK Then
@@ -59,19 +66,19 @@
                 txtOutput.Text = ".."
                 Dim scanText As String
                 Try
-                    scanText = txtCD.Text.Substring( ofdSelectFile.FileName.LastIndexOf(IO.Path.DirectorySeparatorChar) +1 )
+                    scanText = txtCD.Text.Substring( ofdSelectFile.FileName.LastIndexOf(Path.DirectorySeparatorChar) +1 )
                     
-                    If scanText.Contains(IO.Path.DirectorySeparatorChar) Then
+                    If scanText.Contains(Path.DirectorySeparatorChar) Then
                         For Each character As Char In scanText
-                            If character = IO.Path.DirectorySeparatorChar Then
-                                txtOutput.Text &= IO.Path.DirectorySeparatorChar & ".."
+                            If character = Path.DirectorySeparatorChar Then
+                                txtOutput.Text &= Path.DirectorySeparatorChar & ".."
                             End If
                         Next
                     End If
                 Catch
                 End Try
                 
-                txtOutput.Text &= ofdSelectFile.FileName.Substring( ofdSelectFile.FileName.LastIndexOf(IO.Path.DirectorySeparatorChar) )
+                txtOutput.Text &= ofdSelectFile.FileName.Substring( ofdSelectFile.FileName.LastIndexOf(Path.DirectorySeparatorChar) )
             Else
                 MsgBox("Please select an option!", MsgBoxStyle.Exclamation)
             End If
