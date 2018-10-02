@@ -21,9 +21,9 @@
     End Sub
     
     Sub btnURLEncode_Click() Handles btnURLEncode.Click
-        ' Uri.EscapeDataString replaces / too, but
+        ' Uri.EscapeDataString replaces :, /, \ too, but
         ' Uri.EscapeUriString only replaces space and \
-        '  Need to convert specifically #, so use EscapeDataString then convert %2F (/) and %5C (\) back to /
+        '  Need to convert specifically #, so use EscapeDataString then convert %2F (/) and %5C (\) to /
         txtOutput.Text = Uri.EscapeDataString(txtDecoded.Text)
         txtOutput.Text = txtOutput.Text.Replace("%2F", "/").Replace("%5C", "/").Replace("%3A", ":")
     End Sub
@@ -41,15 +41,14 @@
     Sub optSetPathAbsolute_CheckedChanged() Handles optSetPathAbsolute.CheckedChanged
         btnBrowse.Enabled = True
     End Sub
-    
     Sub optSetPathRelative_CheckedChanged() Handles optSetPathRelative.CheckedChanged
         btnBrowse.Enabled = True
         gbxSetPathRelative.Enabled = optSetPathRelative.Checked
     End Sub
     
     Sub btnBrowse_Click() Handles btnBrowse.Click
-        ofdSelectFile.FileName = txtDecoded.Text
-        ofdSelectFile.InitialDirectory = txtCD.Text
+        ofdSelectFile.FileName = txtDecoded.Text.Replace(IO.Path.AltDirectorySeparatorChar, IO.Path.DirectorySeparatorChar)
+        ofdSelectFile.InitialDirectory = txtCD.Text ' this should have the correct seperator characters as it's set from Environment.CurrentDirectory
         
         If ofdSelectFile.ShowDialog() = DialogResult.OK Then
             If optSetPathAbsolute.Checked Then
@@ -60,18 +59,19 @@
                 txtOutput.Text = ".."
                 Dim scanText As String
                 Try
-                    scanText = txtCD.Text.Substring( ofdSelectFile.FileName.Replace("/", "\").LastIndexOf("\") +1 ).Replace("/", "\")
-                    If scanText.Contains("\") Then
+                    scanText = txtCD.Text.Substring( ofdSelectFile.FileName.LastIndexOf(IO.Path.DirectorySeparatorChar) +1 )
+                    
+                    If scanText.Contains(IO.Path.DirectorySeparatorChar) Then
                         For Each character As Char In scanText
-                            If character = "\" Then
-                                txtOutput.Text &= "\.."
+                            If character = IO.Path.DirectorySeparatorChar Then
+                                txtOutput.Text &= IO.Path.DirectorySeparatorChar & ".."
                             End If
                         Next
                     End If
                 Catch
                 End Try
                 
-                txtOutput.Text &= ofdSelectFile.FileName.Substring( ofdSelectFile.FileName.Replace("/", "\").LastIndexOf("\") )
+                txtOutput.Text &= ofdSelectFile.FileName.Substring( ofdSelectFile.FileName.LastIndexOf(IO.Path.DirectorySeparatorChar) )
             Else
                 MsgBox("Please select an option!", MsgBoxStyle.Exclamation)
             End If
