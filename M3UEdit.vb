@@ -359,7 +359,17 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub btnFileSet_Click(sender As Object, e As EventArgs) Handles btnFileSet.Click
-        Throw New NotImplementedException
+        Dim returnPath As String = txtFile.Text
+        
+        If txtM3UFile.Text <> "" Then
+            Dim tmpNewCD As String = txtM3UFile.Text.Remove(txtM3UFile.Text.LastIndexOf(IO.Path.DirectorySeparatorChar))
+            If tmpNewCD.EndsWith(IO.Path.VolumeSeparatorChar) Then tmpNewCD &= IO.Path.DirectorySeparatorChar
+            Environment.CurrentDirectory = tmpNewCD
+        End If
+        
+        If PathEdit.SetAndShow(returnPath, Environment.CurrentDirectory) Then
+            txtFile.Text = returnPath
+        End If
     End Sub
     
     '  Track Length

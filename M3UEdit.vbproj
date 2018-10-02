@@ -66,6 +66,10 @@
       <DependentUpon>M3UEdit.vb</DependentUpon>
     </Compile>
     <Compile Include="M3UEdit.vb" />
+    <Compile Include="PathEdit.Designer.vb">
+      <DependentUpon>PathEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PathEdit.vb" />
     <Compile Include="Properties\Application.vb" />
     <Compile Include="Properties\AssemblyInfo.vb" />
     <Compile Include="Properties\Resources.Designer.vb">
