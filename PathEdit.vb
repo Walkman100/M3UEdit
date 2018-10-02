@@ -15,6 +15,9 @@ Public Partial Class PathEdit
         
         txtOutput.Text = filePath
         
+        optSetPathAbsolute.Checked = False
+        optSetPathRelative.Checked = False
+        btnBrowse.Enabled = False
         If ShowDialog() = DialogResult.OK Then
             filePath = txtOutput.Text
             Return True
@@ -61,7 +64,11 @@ Public Partial Class PathEdit
             If optSetPathAbsolute.Checked Then
                 txtOutput.Text = ofdSelectFile.FileName
             ElseIf optSetPathRelativeContained.Checked
-                txtOutput.Text = ofdSelectFile.FileName.Substring(txtCD.Text.Length + 1)
+                If txtCD.Text.EndsWith(Path.VolumeSeparatorChar & Path.DirectorySeparatorChar) Then
+                    txtOutput.Text = ofdSelectFile.FileName.Substring(txtCD.Text.Length) ' Since on a drive (e.g. D:\) CD contains a trailing \
+                Else
+                    txtOutput.Text = ofdSelectFile.FileName.Substring(txtCD.Text.Length + 1)
+                End If
             ElseIf optSetPathRelativeExternal.Checked
                 txtOutput.Text = ".."
                 Dim scanText As String
