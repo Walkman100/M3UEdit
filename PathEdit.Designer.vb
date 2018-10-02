@@ -165,7 +165,7 @@ Partial Class PathEdit
         'lblFileExistence
         '
         Me.lblFileExistence.AutoSize = true
-        Me.lblFileExistence.Location = New System.Drawing.Point(418, 107)
+        Me.lblFileExistence.Location = New System.Drawing.Point(414, 107)
         Me.lblFileExistence.Name = "lblFileExistence"
         Me.lblFileExistence.Size = New System.Drawing.Size(87, 13)
         Me.lblFileExistence.TabIndex = 6

@@ -198,9 +198,10 @@ Partial Class TimeConverter
         Me.Controls.Add(Me.lblOut)
         Me.Controls.Add(Me.btnAutoConvert)
         Me.Name = "TimeConverter"
+        Me.ShowIcon = false
         Me.ShowInTaskbar = false
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "TimeConverter"
+        Me.Text = "Convert Time"
         Me.gbxParsed.ResumeLayout(false)
         Me.gbxParsed.PerformLayout
         Me.ResumeLayout(false)

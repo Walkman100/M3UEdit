@@ -17,15 +17,25 @@
     End Function
     
     Sub txtOutput_TextChanged() Handles txtOutput.TextChanged
-        ' decode and set decoded text
+        txtDecoded.Text = Uri.UnescapeDataString(txtOutput.Text)
     End Sub
     
     Sub btnURLEncode_Click() Handles btnURLEncode.Click
-        ' encode txtDecoded to txtOutput
+        ' Uri.EscapeDataString replaces / too, but
+        ' Uri.EscapeUriString only replaces space and \
+        '  Need to convert specifically #, so use EscapeDataString then convert %2F (/) and %5C (\) back to /
+        txtOutput.Text = Uri.EscapeDataString(txtDecoded.Text)
+        txtOutput.Text = txtOutput.Text.Replace("%2F", "/").Replace("%5C", "/").Replace("%3A", ":")
     End Sub
     
     Sub txtDecoded_TextChanged() Handles txtDecoded.TextChanged
-        ' check for file existence and update label and pbx
+        If IO.File.Exists(txtDecoded.Text) Then
+            lblFileExistence.Text = "File Exists"
+            pbxFileExistence.Image = Resources.accept
+        Else
+            lblFileExistence.Text = "File Doesn't Exist"
+            pbxFileExistence.Image = Resources.warning
+        End If
     End Sub
     
     Sub optSetPathAbsolute_CheckedChanged() Handles optSetPathAbsolute.CheckedChanged
