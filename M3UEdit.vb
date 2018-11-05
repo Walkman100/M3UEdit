@@ -205,6 +205,11 @@ Public Partial Class M3UEdit
             Next
             
             lstFiles.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize)
+            
+            Dim tmpNewCD As String = path.Remove(path.LastIndexOf(IO.Path.DirectorySeparatorChar))
+            If tmpNewCD.EndsWith(IO.Path.VolumeSeparatorChar) Then tmpNewCD &= IO.Path.DirectorySeparatorChar
+            Environment.CurrentDirectory = tmpNewCD
+            
             PopulateEditSection()
         Else
             MsgBox("""" & path & """ not found!", MsgBoxStyle.Exclamation)
@@ -262,6 +267,8 @@ Public Partial Class M3UEdit
     Sub PopulateEditSection() Handles lstFiles.SelectedIndexChanged
         If lstFiles.SelectedItems.Count = 0 Then
             grpFile.Enabled = False
+            lblFileExistence.Text = ""
+            pbxFileExistence.Image = Nothing
             txtFile.Text = ""
             
             grpLength.Enabled = False
@@ -284,6 +291,13 @@ Public Partial Class M3UEdit
         Else
             grpFile.Enabled = True
             txtFile.Text = lstFiles.SelectedItems(0).Text
+            If Exists(Uri.UnescapeDataString(txtFile.Text)) AndAlso Not txtFile.Text.Contains("#") Then
+                lblFileExistence.Text = "File Exists"
+                pbxFileExistence.Image = Resources.accept
+            Else
+                lblFileExistence.Text = "Issue Detected"
+                pbxFileExistence.Image = Resources.warning
+            End If
             
             grpLength.Enabled = True
             Decimal.TryParse(lstFiles.SelectedItems(0).SubItems.Item(1).Text, Globalization.NumberStyles.Any, _

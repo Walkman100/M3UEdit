@@ -28,6 +28,11 @@ Public Partial Class PathEdit
     
     Sub txtOutput_TextChanged() Handles txtOutput.TextChanged
         txtDecoded.Text = Uri.UnescapeDataString(txtOutput.Text)
+        If txtOutput.Text.Contains("#") Then
+            lblOutputWarning.Text = "Warning! Output text contains a # - anything after this character will be ignored by VLC"
+        Else
+            lblOutputWarning.Text = ""
+        End If
     End Sub
     
     Sub btnURLEncode_Click() Handles btnURLEncode.Click

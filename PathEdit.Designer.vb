@@ -45,6 +45,7 @@ Partial Class PathEdit
         Me.btnSave = New System.Windows.Forms.Button()
         Me.btnCancel = New System.Windows.Forms.Button()
         Me.ofdSelectFile = New System.Windows.Forms.OpenFileDialog()
+        Me.lblOutputWarning = New System.Windows.Forms.Label()
         Me.gbxSetPathRelative.SuspendLayout
         CType(Me.pbxFileExistence,System.ComponentModel.ISupportInitialize).BeginInit
         Me.gbxSetPath.SuspendLayout
@@ -237,6 +238,15 @@ Partial Class PathEdit
         Me.ofdSelectFile.DefaultExt = "mp3"
         Me.ofdSelectFile.Filter = "Media Files|*.mp3; *.mp4; *.wav; *.m4a; *.wma; *.wmv; *.mov; *.mpg|All Files|*.*"
         '
+        'lblOutputWarning
+        '
+        Me.lblOutputWarning.AutoSize = true
+        Me.lblOutputWarning.ForeColor = System.Drawing.Color.Maroon
+        Me.lblOutputWarning.Location = New System.Drawing.Point(84, 9)
+        Me.lblOutputWarning.Name = "lblOutputWarning"
+        Me.lblOutputWarning.Size = New System.Drawing.Size(0, 13)
+        Me.lblOutputWarning.TabIndex = 22
+        '
         'PathEdit
         '
         Me.AcceptButton = Me.btnSave
@@ -244,6 +254,7 @@ Partial Class PathEdit
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnCancel
         Me.ClientSize = New System.Drawing.Size(517, 248)
+        Me.Controls.Add(Me.lblOutputWarning)
         Me.Controls.Add(Me.btnCancel)
         Me.Controls.Add(Me.btnSave)
         Me.Controls.Add(Me.lblCD)
@@ -269,6 +280,7 @@ Partial Class PathEdit
         Me.ResumeLayout(false)
         Me.PerformLayout
     End Sub
+    Private lblOutputWarning As System.Windows.Forms.Label
     Private ofdSelectFile As System.Windows.Forms.OpenFileDialog
     Private btnCancel As System.Windows.Forms.Button
     Private btnSave As System.Windows.Forms.Button

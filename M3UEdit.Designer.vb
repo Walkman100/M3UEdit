@@ -37,6 +37,7 @@ Partial Class M3UEdit
         Me.txtM3UFile = New System.Windows.Forms.TextBox()
         Me.btnM3UEdit = New System.Windows.Forms.Button()
         Me.splitContainerMain = New System.Windows.Forms.SplitContainer()
+        Me.lblVersion = New System.Windows.Forms.Label()
         Me.btnExit = New System.Windows.Forms.Button()
         Me.btnMoveDown = New System.Windows.Forms.Button()
         Me.btnMoveUp = New System.Windows.Forms.Button()
@@ -70,7 +71,8 @@ Partial Class M3UEdit
         Me.timerBrowseDelay = New System.Windows.Forms.Timer(Me.components)
         Me.ofdSelectFile = New System.Windows.Forms.OpenFileDialog()
         Me.sfdSaveAs = New System.Windows.Forms.SaveFileDialog()
-        Me.lblVersion = New System.Windows.Forms.Label()
+        Me.pbxFileExistence = New System.Windows.Forms.PictureBox()
+        Me.lblFileExistence = New System.Windows.Forms.Label()
         CType(Me.splitContainerMain,System.ComponentModel.ISupportInitialize).BeginInit
         Me.splitContainerMain.Panel1.SuspendLayout
         Me.splitContainerMain.Panel2.SuspendLayout
@@ -83,6 +85,7 @@ Partial Class M3UEdit
         CType(Me.numLength,System.ComponentModel.ISupportInitialize).BeginInit
         Me.grpFile.SuspendLayout
         Me.grpM3UFile.SuspendLayout
+        CType(Me.pbxFileExistence,System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
         'lstFiles
@@ -187,6 +190,17 @@ Partial Class M3UEdit
         Me.splitContainerMain.SplitterDistance = 455
         Me.splitContainerMain.TabIndex = 0
         '
+        'lblVersion
+        '
+        Me.lblVersion.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.lblVersion.AutoSize = true
+        Me.lblVersion.Font = New System.Drawing.Font("Microsoft Sans Serif", 6!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblVersion.Location = New System.Drawing.Point(448, 431)
+        Me.lblVersion.Name = "lblVersion"
+        Me.lblVersion.Size = New System.Drawing.Size(21, 9)
+        Me.lblVersion.TabIndex = 14
+        Me.lblVersion.Text = "1.0.0"
+        '
         'btnExit
         '
         Me.btnExit.Anchor = System.Windows.Forms.AnchorStyles.Top
@@ -225,7 +239,7 @@ Partial Class M3UEdit
         Me.btnRemove.Name = "btnRemove"
         Me.btnRemove.Size = New System.Drawing.Size(100, 23)
         Me.btnRemove.TabIndex = 8
-        Me.btnRemove.Text = "Remove Track"
+        Me.btnRemove.Text = "Remove Track(s)"
         Me.btnRemove.UseVisualStyleBackColor = true
         '
         'btnAdd
@@ -463,6 +477,8 @@ Partial Class M3UEdit
         '
         Me.grpFile.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
                         Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.grpFile.Controls.Add(Me.pbxFileExistence)
+        Me.grpFile.Controls.Add(Me.lblFileExistence)
         Me.grpFile.Controls.Add(Me.txtFile)
         Me.grpFile.Controls.Add(Me.btnFileSet)
         Me.grpFile.Location = New System.Drawing.Point(10, 67)
@@ -521,16 +537,21 @@ Partial Class M3UEdit
         Me.sfdSaveAs.Filter = "M3U Playlists|*.m3u|All Files|*.*"
         Me.sfdSaveAs.Title = "Select Save Location"
         '
-        'lblVersion
+        'pbxFileExistence
         '
-        Me.lblVersion.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.lblVersion.AutoSize = true
-        Me.lblVersion.Font = New System.Drawing.Font("Microsoft Sans Serif", 6!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblVersion.Location = New System.Drawing.Point(448, 431)
-        Me.lblVersion.Name = "lblVersion"
-        Me.lblVersion.Size = New System.Drawing.Size(21, 9)
-        Me.lblVersion.TabIndex = 14
-        Me.lblVersion.Text = "1.0.0"
+        Me.pbxFileExistence.Location = New System.Drawing.Point(74, -1)
+        Me.pbxFileExistence.Name = "pbxFileExistence"
+        Me.pbxFileExistence.Size = New System.Drawing.Size(16, 16)
+        Me.pbxFileExistence.TabIndex = 23
+        Me.pbxFileExistence.TabStop = false
+        '
+        'lblFileExistence
+        '
+        Me.lblFileExistence.AutoSize = true
+        Me.lblFileExistence.Location = New System.Drawing.Point(92, 0)
+        Me.lblFileExistence.Name = "lblFileExistence"
+        Me.lblFileExistence.Size = New System.Drawing.Size(0, 13)
+        Me.lblFileExistence.TabIndex = 22
         '
         'M3UEdit
         '
@@ -560,8 +581,11 @@ Partial Class M3UEdit
         Me.grpFile.PerformLayout
         Me.grpM3UFile.ResumeLayout(false)
         Me.grpM3UFile.PerformLayout
+        CType(Me.pbxFileExistence,System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(false)
     End Sub
+    Private lblFileExistence As System.Windows.Forms.Label
+    Private pbxFileExistence As System.Windows.Forms.PictureBox
     Private lblVersion As System.Windows.Forms.Label
     Private sfdSaveAs As System.Windows.Forms.SaveFileDialog
     Private ofdSelectFile As System.Windows.Forms.OpenFileDialog
