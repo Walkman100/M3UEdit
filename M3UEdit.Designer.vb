@@ -246,6 +246,8 @@ Partial Class M3UEdit
         'btnAdd
         '
         Me.btnAdd.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.btnAdd.Image = Global.M3UEdit.Resources.mouse_right_click
+        Me.btnAdd.ImageAlign = System.Drawing.ContentAlignment.TopRight
         Me.btnAdd.Location = New System.Drawing.Point(109, 380)
         Me.btnAdd.Name = "btnAdd"
         Me.btnAdd.Size = New System.Drawing.Size(100, 23)

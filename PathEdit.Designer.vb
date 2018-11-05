@@ -281,7 +281,7 @@ Partial Class PathEdit
         Me.PerformLayout
     End Sub
     Private lblOutputWarning As System.Windows.Forms.Label
-    Private ofdSelectFile As System.Windows.Forms.OpenFileDialog
+    Friend ofdSelectFile As System.Windows.Forms.OpenFileDialog
     Private btnCancel As System.Windows.Forms.Button
     Private btnSave As System.Windows.Forms.Button
     Private lblCD As System.Windows.Forms.Label

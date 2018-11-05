@@ -689,6 +689,28 @@ Public Partial Class M3UEdit
         PopulateEditSection()
     End Sub
     
+    Sub btnAdd_MouseUp(sender As Object, e As MouseEventArgs) Handles btnAdd.MouseUp
+        If e.Button = MouseButtons.Right Then
+            PathEdit.ofdSelectFile.Multiselect = True
+            PathEdit.ofdSelectFile.InitialDirectory = Environment.CurrentDirectory
+            
+            If PathEdit.ofdSelectFile.ShowDialog() = DialogResult.OK Then
+                PathEdit.ofdSelectFile.Multiselect = False
+                lstFiles.SelectedItems.Clear() ' deselect existing items
+                
+                For Each file As String In PathEdit.ofdSelectFile.FileNames
+                    Dim tmpListViewItem As New ListViewItem(New String() {file, "", "", "", "", ""})
+                    lstFiles.Items.Add(tmpListViewItem).Selected = True
+                    tmpListViewItem.Focused = True
+                Next
+                
+                PopulateEditSection()
+            Else
+                PathEdit.ofdSelectFile.Multiselect = False
+            End If
+        End If
+    End Sub
+    
     Sub btnRemove_Click(sender As Object, e As EventArgs) Handles btnRemove.Click
         If lstFiles.SelectedItems.Count = 0 Then
             btnRemove.Enabled = False
