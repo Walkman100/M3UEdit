@@ -65,14 +65,14 @@ Partial Class M3UEdit
         Me.btnLengthAuto = New System.Windows.Forms.Button()
         Me.numLength = New System.Windows.Forms.NumericUpDown()
         Me.grpFile = New System.Windows.Forms.GroupBox()
+        Me.pbxFileExistence = New System.Windows.Forms.PictureBox()
+        Me.lblFileExistence = New System.Windows.Forms.Label()
         Me.txtFile = New System.Windows.Forms.TextBox()
         Me.btnFileSet = New System.Windows.Forms.Button()
         Me.grpM3UFile = New System.Windows.Forms.GroupBox()
         Me.timerBrowseDelay = New System.Windows.Forms.Timer(Me.components)
         Me.ofdSelectFile = New System.Windows.Forms.OpenFileDialog()
         Me.sfdSaveAs = New System.Windows.Forms.SaveFileDialog()
-        Me.pbxFileExistence = New System.Windows.Forms.PictureBox()
-        Me.lblFileExistence = New System.Windows.Forms.Label()
         CType(Me.splitContainerMain,System.ComponentModel.ISupportInitialize).BeginInit
         Me.splitContainerMain.Panel1.SuspendLayout
         Me.splitContainerMain.Panel2.SuspendLayout
@@ -84,13 +84,14 @@ Partial Class M3UEdit
         Me.grpLength.SuspendLayout
         CType(Me.numLength,System.ComponentModel.ISupportInitialize).BeginInit
         Me.grpFile.SuspendLayout
-        Me.grpM3UFile.SuspendLayout
         CType(Me.pbxFileExistence,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.grpM3UFile.SuspendLayout
         Me.SuspendLayout
         '
         'lstFiles
         '
         Me.lstFiles.AllowColumnReorder = true
+        Me.lstFiles.AllowDrop = true
         Me.lstFiles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colHeadFile, Me.colHeadLength, Me.colHeadTitle, Me.colHeadArtist, Me.colHeadStartTime, Me.colHeadEndTime})
         Me.lstFiles.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lstFiles.FullRowSelect = true
@@ -488,6 +489,22 @@ Partial Class M3UEdit
         Me.grpFile.TabStop = false
         Me.grpFile.Text = "Track File"
         '
+        'pbxFileExistence
+        '
+        Me.pbxFileExistence.Location = New System.Drawing.Point(74, -1)
+        Me.pbxFileExistence.Name = "pbxFileExistence"
+        Me.pbxFileExistence.Size = New System.Drawing.Size(16, 16)
+        Me.pbxFileExistence.TabIndex = 23
+        Me.pbxFileExistence.TabStop = false
+        '
+        'lblFileExistence
+        '
+        Me.lblFileExistence.AutoSize = true
+        Me.lblFileExistence.Location = New System.Drawing.Point(92, 0)
+        Me.lblFileExistence.Name = "lblFileExistence"
+        Me.lblFileExistence.Size = New System.Drawing.Size(0, 13)
+        Me.lblFileExistence.TabIndex = 22
+        '
         'txtFile
         '
         Me.txtFile.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left)  _
@@ -537,22 +554,6 @@ Partial Class M3UEdit
         Me.sfdSaveAs.Filter = "M3U Playlists|*.m3u|All Files|*.*"
         Me.sfdSaveAs.Title = "Select Save Location"
         '
-        'pbxFileExistence
-        '
-        Me.pbxFileExistence.Location = New System.Drawing.Point(74, -1)
-        Me.pbxFileExistence.Name = "pbxFileExistence"
-        Me.pbxFileExistence.Size = New System.Drawing.Size(16, 16)
-        Me.pbxFileExistence.TabIndex = 23
-        Me.pbxFileExistence.TabStop = false
-        '
-        'lblFileExistence
-        '
-        Me.lblFileExistence.AutoSize = true
-        Me.lblFileExistence.Location = New System.Drawing.Point(92, 0)
-        Me.lblFileExistence.Name = "lblFileExistence"
-        Me.lblFileExistence.Size = New System.Drawing.Size(0, 13)
-        Me.lblFileExistence.TabIndex = 22
-        '
         'M3UEdit
         '
         Me.AcceptButton = Me.btnSave
@@ -579,9 +580,9 @@ Partial Class M3UEdit
         CType(Me.numLength,System.ComponentModel.ISupportInitialize).EndInit
         Me.grpFile.ResumeLayout(false)
         Me.grpFile.PerformLayout
+        CType(Me.pbxFileExistence,System.ComponentModel.ISupportInitialize).EndInit
         Me.grpM3UFile.ResumeLayout(false)
         Me.grpM3UFile.PerformLayout
-        CType(Me.pbxFileExistence,System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(false)
     End Sub
     Private lblFileExistence As System.Windows.Forms.Label

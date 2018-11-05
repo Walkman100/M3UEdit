@@ -594,6 +594,37 @@ Public Partial Class M3UEdit
         End If
     End Sub
     
+    ' ======================= Drag-and-drop =======================
+    
+    Sub lstFiles_DragEnter(sender As Object, e As DragEventArgs) Handles lstFiles.DragEnter
+        If e.Data.GetDataPresent(DataFormats.Text) Or e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            e.Effect = DragDropEffects.All
+        Else
+            e.Effect = DragDropEffects.None
+        End If
+    End Sub
+    
+    Sub lstFiles_DragDrop(sender As Object, e As DragEventArgs) Handles lstFiles.DragDrop
+        If e.Data.GetDataPresent(DataFormats.Text) Then
+            Dim tmpListViewItem As New ListViewItem(New String() {e.Data.GetData(DataFormats.Text).ToString, "", "", "", "", ""})
+            lstFiles.SelectedItems.Clear() ' deselect existing items
+            lstFiles.Items.Add(tmpListViewItem).Selected = True
+            tmpListViewItem.Focused = True
+            
+            PopulateEditSection()
+        ElseIf e.Data.GetDataPresent(DataFormats.FileDrop)
+            lstFiles.SelectedItems.Clear() ' deselect existing items
+            Dim fileList() As String = DirectCast(e.Data.GetData(DataFormats.FileDrop), String())
+            For i = 0 To fileList.Length
+                Dim tmpListViewItem As New ListViewItem(New String() {fileList(i), "", "", "", "", ""})
+                lstFiles.Items.Add(tmpListViewItem).Selected = True
+                tmpListViewItem.Focused = True
+            Next
+            
+            PopulateEditSection()
+        End If
+    End Sub
+    
     ' ======================= Standalone Buttons =======================
     
     Sub btnMoveUp_Click(sender As Object, e As EventArgs) Handles btnMoveUp.Click
