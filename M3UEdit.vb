@@ -15,7 +15,7 @@ Public Partial Class M3UEdit
     
     ' ======================= Loading File (UI stuff) =======================
     
-    Sub M3UEdit_Load(sender As Object, e As EventArgs) Handles Me.Load
+    Sub M3UEdit_Load() Handles Me.Load
         For Each s As String In My.Application.CommandLineArgs
             If txtM3UFile.Text = "" Then
                 txtM3UFile.Text = s
@@ -37,7 +37,7 @@ Public Partial Class M3UEdit
         timerBrowseDelay.Start
     End Sub
     
-    Sub timerBrowseDelay_Tick(sender As Object, e As EventArgs) Handles timerBrowseDelay.Tick
+    Sub timerBrowseDelay_Tick() Handles timerBrowseDelay.Tick
         timerBrowseDelay.Stop
         PopulateEditSection()
         chkStartTime_CheckedChanged() ' safe because nothing can be selected yet
@@ -56,7 +56,7 @@ Public Partial Class M3UEdit
         End If
     End Sub
     
-    Sub btnM3UBrowse_Click(sender As Object, e As EventArgs) Handles btnM3UBrowse.Click
+    Sub btnM3UBrowse_Click() Handles btnM3UBrowse.Click
         ofdSelectFile.FileName = txtM3UFile.Text
         
         If ofdSelectFile.ShowDialog() = DialogResult.OK Then
@@ -68,6 +68,21 @@ Public Partial Class M3UEdit
             txtM3UFile.Text = ofdSelectFile.FileName
             
             LoadFile(ofdSelectFile.FileName)
+        End If
+    End Sub
+    
+    Sub btnM3UBrowse_MouseUp(sender As Object, e As MouseEventArgs) Handles btnM3UBrowse.MouseUp
+        If e.Button = MouseButtons.Right Then
+            ofdSelectFile.FileName = ""
+            
+            If ofdSelectFile.ShowDialog() = DialogResult.OK Then
+                txtM3UFile.ReadOnly = True
+                btnM3UEdit.Text = "Edit"
+                btnSave.Enabled = True
+                btnTest.Enabled = True
+                
+                LoadFile(ofdSelectFile.FileName, True)
+            End If
         End If
     End Sub
     
@@ -94,14 +109,16 @@ Public Partial Class M3UEdit
     
     ' ======================= Actual Load File =======================
     
-    Sub LoadFile(path As String)
+    Sub LoadFile(path As String, Optional append As Boolean = False)
         If Exists(path) Then
-            If New WindowsPrincipal(WindowsIdentity.GetCurrent).IsInRole(WindowsBuiltInRole.Administrator) Then _
-              Me.Text = "[Admin] M3UEdit: " & path Else _
-              Me.Text = "M3UEdit: " & path
-            
-            lstFiles.Sorting = SortOrder.None
-            lstFiles.Items.Clear()
+            If append = False Then
+                If New WindowsPrincipal(WindowsIdentity.GetCurrent).IsInRole(WindowsBuiltInRole.Administrator) Then _
+                  Me.Text = "[Admin] M3UEdit: " & path Else _
+                  Me.Text = "M3UEdit: " & path
+                
+                lstFiles.Sorting = SortOrder.None
+                lstFiles.Items.Clear()
+            End If
             
             Dim tmpListViewItem As New ListViewItem(New String() {"", "", "", "", "", ""})
             
@@ -379,7 +396,7 @@ Public Partial Class M3UEdit
         End If
     End Sub
     
-    Sub btnFileSet_Click(sender As Object, e As EventArgs) Handles btnFileSet.Click
+    Sub btnFileSet_Click() Handles btnFileSet.Click
         Dim returnPath As String = txtFile.Text
         
         If txtM3UFile.Text <> "" Then
@@ -395,7 +412,7 @@ Public Partial Class M3UEdit
     End Sub
     
     '  Track Length
-    Sub btnLengthAuto_Click(sender As Object, e As EventArgs) Handles btnLengthAuto.Click
+    Sub btnLengthAuto_Click() Handles btnLengthAuto.Click
         
         Try ' check for NAudio
             Dim tmp = GetMediaDuration("")
@@ -462,7 +479,7 @@ Public Partial Class M3UEdit
         Return duration
     End Function
     
-    Sub numLength_ValueChanged(sender As Object, e As EventArgs) Handles numLength.ValueChanged
+    Sub numLength_ValueChanged() Handles numLength.ValueChanged
         If lstFiles.SelectedItems.Count = 0 Then
             ' ignore
         ElseIf lstFiles.SelectedItems.Count = 1 Then
@@ -474,7 +491,7 @@ Public Partial Class M3UEdit
         End If
     End Sub
     
-    Sub btnLengthConvert_Click(sender As Object, e As EventArgs) Handles btnLengthConvert.Click
+    Sub btnLengthConvert_Click() Handles btnLengthConvert.Click
         Dim returnSeconds As Integer = Decimal.ToInt32(numLength.Value)
         If TimeConverter.SetAndShow(returnSeconds) Then
             numLength.Value = returnSeconds
@@ -482,7 +499,7 @@ Public Partial Class M3UEdit
     End Sub
     
     '  Track Info
-    Sub txtTitle_TextChanged(sender As Object, e As EventArgs) Handles txtTitle.TextChanged
+    Sub txtTitle_TextChanged() Handles txtTitle.TextChanged
         If lstFiles.SelectedItems.Count = 0 Then
             ' ignore
         ElseIf lstFiles.SelectedItems.Count = 1 Then
@@ -494,7 +511,7 @@ Public Partial Class M3UEdit
         End If
     End Sub
     
-    Sub txtArtist_TextChanged(sender As Object, e As EventArgs) Handles txtArtist.TextChanged
+    Sub txtArtist_TextChanged() Handles txtArtist.TextChanged
         If lstFiles.SelectedItems.Count = 0 Then
             ' ignore
         ElseIf lstFiles.SelectedItems.Count = 1 Then
@@ -527,7 +544,7 @@ Public Partial Class M3UEdit
         End If
     End Sub
     
-    Sub numStartTime_ValueChanged(sender As Object, e As EventArgs) Handles numStartTime.ValueChanged
+    Sub numStartTime_ValueChanged() Handles numStartTime.ValueChanged
         If lstFiles.SelectedItems.Count = 0 Then
             ' ignore
         ElseIf lstFiles.SelectedItems.Count = 1 Then
@@ -539,7 +556,7 @@ Public Partial Class M3UEdit
         End If
     End Sub
     
-    Sub btnStartTimeConvert_Click(sender As Object, e As EventArgs) Handles btnStartTimeConvert.Click
+    Sub btnStartTimeConvert_Click() Handles btnStartTimeConvert.Click
         Dim returnSeconds As Integer = Decimal.ToInt32(numStartTime.Value)
         If TimeConverter.SetAndShow(returnSeconds) Then
             numStartTime.Value = returnSeconds
@@ -565,7 +582,7 @@ Public Partial Class M3UEdit
         End If
     End Sub
     
-    Sub numEndTime_ValueChanged(sender As Object, e As EventArgs) Handles numEndTime.ValueChanged
+    Sub numEndTime_ValueChanged() Handles numEndTime.ValueChanged
         If lstFiles.SelectedItems.Count = 0 Then
             ' ignore
         ElseIf lstFiles.SelectedItems.Count = 1 Then
@@ -577,21 +594,21 @@ Public Partial Class M3UEdit
         End If
     End Sub
     
-    Sub btnEndTimeConvert_Click(sender As Object, e As EventArgs) Handles btnEndTimeConvert.Click
+    Sub btnEndTimeConvert_Click() Handles btnEndTimeConvert.Click
         Dim returnSeconds As Integer = Decimal.ToInt32(numEndTime.Value)
         If TimeConverter.SetAndShow(returnSeconds) Then
             numEndTime.Value = returnSeconds
         End If
     End Sub
     
-    Sub btnEndTimeGet_Click(sender As Object, e As EventArgs) Handles btnEndTimeGet.Click
+    Sub btnEndTimeGet_Click() Handles btnEndTimeGet.Click
         chkEndTime.Checked = True
         numEndTime.Value = 0 ' clear possibly existing value, so that the ValueChanged event is fired if value is the same
         numEndTime.Value = numStartTime.Value + numLength.Value
         PopulateEditSection()
     End Sub
     
-    Sub btnStartEndSetLength_Click(sender As Object, e As EventArgs) Handles btnStartEndSetLength.Click
+    Sub btnStartEndSetLength_Click() Handles btnStartEndSetLength.Click
         If numEndTime.Value - numStartTime.Value < 0 Then
             MsgBox("Cannot set length to a negative value!", MsgBoxStyle.Exclamation)
         Else
@@ -633,7 +650,7 @@ Public Partial Class M3UEdit
     
     ' ======================= Standalone Buttons =======================
     
-    Sub btnMoveUp_Click(sender As Object, e As EventArgs) Handles btnMoveUp.Click
+    Sub btnMoveUp_Click() Handles btnMoveUp.Click
         If lstFiles.SelectedItems.Count <> 0 Then
             Try
                 lstFiles.Sorting = SortOrder.None
@@ -660,7 +677,7 @@ Public Partial Class M3UEdit
         End If
     End Sub
     
-    Sub btnMoveDown_Click(sender As Object, e As EventArgs) Handles btnMoveDown.Click
+    Sub btnMoveDown_Click() Handles btnMoveDown.Click
         If lstFiles.SelectedItems.Count <> 0 Then
             Try
                 lstFiles.Sorting = SortOrder.None
@@ -687,7 +704,7 @@ Public Partial Class M3UEdit
         End If
     End Sub
     
-    Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
+    Sub btnAdd_Click() Handles btnAdd.Click
         Dim tmpListViewItem As New ListViewItem(New String() {"", "", "", "", "", ""})
         lstFiles.Items.Add(tmpListViewItem).Selected = True
         tmpListViewItem.Focused = True
@@ -717,7 +734,7 @@ Public Partial Class M3UEdit
         End If
     End Sub
     
-    Sub btnRemove_Click(sender As Object, e As EventArgs) Handles btnRemove.Click
+    Sub btnRemove_Click() Handles btnRemove.Click
         If lstFiles.SelectedItems.Count = 0 Then
             btnRemove.Enabled = False
         ElseIf lstFiles.SelectedItems.Count = 1 Then
@@ -730,15 +747,15 @@ Public Partial Class M3UEdit
         PopulateEditSection()
     End Sub
     
-    Sub btnTest_Click(sender As Object, e As EventArgs) Handles btnTest.Click
+    Sub btnTest_Click() Handles btnTest.Click
         OpenM3UFile(txtM3UFile.Text)
     End Sub
     
-    Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+    Sub btnSave_Click() Handles btnSave.Click
         SaveFile(txtM3UFile.Text)
     End Sub
     
-    Sub btnSaveAs_Click(sender As Object, e As EventArgs) Handles btnSaveAs.Click
+    Sub btnSaveAs_Click() Handles btnSaveAs.Click
         sfdSaveAs.FileName = txtM3UFile.Text
         
         If sfdSaveAs.ShowDialog() = DialogResult.OK Then
@@ -755,7 +772,7 @@ Public Partial Class M3UEdit
         End If
     End Sub
     
-    Sub btnTestSelected_Click(sender As Object, e As EventArgs) Handles btnTestSelected.Click
+    Sub btnTestSelected_Click() Handles btnTestSelected.Click
         If lstFiles.SelectedItems.Count <> 0 Then
             If txtM3UFile.Text <> "" Then
                 Dim tmpNewCD As String = txtM3UFile.Text.Remove(txtM3UFile.Text.LastIndexOf(IO.Path.DirectorySeparatorChar))
@@ -839,7 +856,7 @@ Public Partial Class M3UEdit
         Settings.ShowDialog()
     End Sub
     
-    Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
+    Sub btnExit_Click() Handles btnExit.Click
         Application.Exit()
     End Sub
 End Class
