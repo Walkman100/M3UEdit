@@ -314,13 +314,6 @@ Public Partial Class M3UEdit
         Else
             grpFile.Enabled = True
             txtFile.Text = lstFiles.SelectedItems(0).Text
-            If Exists(Uri.UnescapeDataString(txtFile.Text)) AndAlso Not txtFile.Text.Contains("#") Then
-                lblFileExistence.Text = "File Exists"
-                pbxFileExistence.Image = Resources.accept
-            Else
-                lblFileExistence.Text = "Issue Detected"
-                pbxFileExistence.Image = Resources.warning
-            End If
             
             grpLength.Enabled = True
             Decimal.TryParse(lstFiles.SelectedItems(0).SubItems.Item(1).Text, Globalization.NumberStyles.Any, _
@@ -393,6 +386,17 @@ Public Partial Class M3UEdit
             For Each item As ListViewItem In lstFiles.SelectedItems
                 item.Text = txtFile.Text
             Next
+        End If
+        
+        If txtFile.Text = "" Then
+            lblFileExistence.Text = ""
+            pbxFileExistence.Image = Nothing
+        ElseIf Exists(Uri.UnescapeDataString(txtFile.Text)) AndAlso Not txtFile.Text.Contains("#") Then
+            lblFileExistence.Text = "File Exists"
+            pbxFileExistence.Image = Resources.accept
+        Else
+            lblFileExistence.Text = "Issue Detected"
+            pbxFileExistence.Image = Resources.warning
         End If
     End Sub
     
