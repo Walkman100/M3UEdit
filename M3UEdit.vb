@@ -23,6 +23,12 @@ Public Partial Class M3UEdit
                 Process.Start(Application.StartupPath & "\" & Process.GetCurrentProcess.ProcessName & ".exe", """" & s & """")
             End If
         Next
+        
+        Settings.SetConfigFilePath
+        If Exists(Settings.configFilePath) Then
+            Settings.LoadSettings
+        End If
+        
         lblVersion.Text = My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Build
         If New WindowsPrincipal(WindowsIdentity.GetCurrent).IsInRole(WindowsBuiltInRole.Administrator) Then _
           Me.Text = "[Admin] M3UEdit" Else _
@@ -390,8 +396,8 @@ Public Partial Class M3UEdit
     
     '  Track Length
     Sub btnLengthAuto_Click(sender As Object, e As EventArgs) Handles btnLengthAuto.Click
-        ' check for NAudio
-        Try
+        
+        Try ' check for NAudio
             Dim tmp = GetMediaDuration("")
         Catch ex As ArgumentException ' NAudio loaded successfully
         Catch ex As IO.FileNotFoundException
@@ -725,7 +731,7 @@ Public Partial Class M3UEdit
     End Sub
     
     Sub btnTest_Click(sender As Object, e As EventArgs) Handles btnTest.Click
-        Process.Start(txtM3UFile.Text)
+        OpenM3UFile(txtM3UFile.Text)
     End Sub
     
     Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
@@ -802,7 +808,7 @@ Public Partial Class M3UEdit
                 Next
             End Using
             
-            Process.Start(tmpFilePath)
+            OpenM3UFile(tmpFilePath)
             
             Threading.Thread.Sleep(1000)
             
@@ -810,6 +816,27 @@ Public Partial Class M3UEdit
         Else
             btnTestSelected.Enabled = False
         End If
+    End Sub
+    
+    Sub OpenM3UFile(filePath As String)
+        If Settings.optTestDefault.Checked Then
+            Process.Start(filePath)
+        ElseIf Settings.optTestSpecific.Checked
+            Process.Start(Settings.txtTestSpecificPath.Text, String.Format(Settings.txtTestSpecificArgs.Text, filePath))
+        ElseIf Settings.optTestAskSystem.Checked
+            Shell("rundll32 shell32.dll,OpenAs_RunDLL " & filePath, AppWinStyle.NormalFocus, True, 120*1000)
+        ElseIf Settings.optTestAskBrowse.Checked
+            Settings.ofdSelectProgram.InitialDirectory = Environment.GetEnvironmentVariable("ProgramFiles")
+            Settings.ofdSelectProgram.FileName = Settings.txtTestAskBrowse.Text
+            
+            If Settings.ofdSelectProgram.ShowDialog() = DialogResult.OK Then
+                Process.Start(Settings.ofdSelectProgram.FileName, """" & filePath & """")
+            End If
+        End If
+    End Sub
+    
+    Sub btnSettings_Click() Handles btnSettings.Click
+        Settings.ShowDialog()
     End Sub
     
     Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click

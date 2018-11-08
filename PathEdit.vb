@@ -15,9 +15,20 @@ Public Partial Class PathEdit
         
         txtOutput.Text = filePath
         
-        optSetPathAbsolute.Checked = False
-        optSetPathRelative.Checked = False
-        btnBrowse.Enabled = False
+        If Settings.optSetPathNone.Checked Then
+            optSetPathAbsolute.Checked = False
+            optSetPathRelative.Checked = False
+            btnBrowse.Enabled = False
+        ElseIf Settings.optSetPathAbsolute.Checked
+            optSetPathAbsolute.Checked = True
+        ElseIf Settings.optSetPathRelativeContained.Checked
+            optSetPathRelative.Checked = True
+            optSetPathRelativeContained.Checked = True
+        ElseIf Settings.optSetPathRelativeExternal.Checked
+            optSetPathRelative.Checked = True
+            optSetPathRelativeExternal.Checked = True
+        End If
+        
         If ShowDialog() = DialogResult.OK Then
             filePath = txtOutput.Text
             Return True
