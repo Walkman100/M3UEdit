@@ -76,6 +76,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="Settings.Designer.vb">
+      <DependentUpon>Settings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.vb" />
     <Compile Include="TimeConverter.Designer.vb">
       <DependentUpon>TimeConverter.vb</DependentUpon>
     </Compile>
