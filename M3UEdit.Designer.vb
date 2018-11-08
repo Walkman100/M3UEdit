@@ -37,6 +37,7 @@ Partial Class M3UEdit
         Me.txtM3UFile = New System.Windows.Forms.TextBox()
         Me.btnM3UEdit = New System.Windows.Forms.Button()
         Me.splitContainerMain = New System.Windows.Forms.SplitContainer()
+        Me.btnSettings = New System.Windows.Forms.Button()
         Me.lblVersion = New System.Windows.Forms.Label()
         Me.btnExit = New System.Windows.Forms.Button()
         Me.btnMoveDown = New System.Windows.Forms.Button()
@@ -131,6 +132,8 @@ Partial Class M3UEdit
         '
         'btnM3UBrowse
         '
+        Me.btnM3UBrowse.Image = Global.M3UEdit.Resources.mouse_right_click
+        Me.btnM3UBrowse.ImageAlign = System.Drawing.ContentAlignment.TopRight
         Me.btnM3UBrowse.Location = New System.Drawing.Point(6, 19)
         Me.btnM3UBrowse.Name = "btnM3UBrowse"
         Me.btnM3UBrowse.Size = New System.Drawing.Size(75, 23)
@@ -145,13 +148,13 @@ Partial Class M3UEdit
         Me.txtM3UFile.Location = New System.Drawing.Point(87, 21)
         Me.txtM3UFile.Name = "txtM3UFile"
         Me.txtM3UFile.ReadOnly = true
-        Me.txtM3UFile.Size = New System.Drawing.Size(273, 20)
+        Me.txtM3UFile.Size = New System.Drawing.Size(304, 20)
         Me.txtM3UFile.TabIndex = 1
         '
         'btnM3UEdit
         '
         Me.btnM3UEdit.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.btnM3UEdit.Location = New System.Drawing.Point(366, 19)
+        Me.btnM3UEdit.Location = New System.Drawing.Point(397, 19)
         Me.btnM3UEdit.Name = "btnM3UEdit"
         Me.btnM3UEdit.Size = New System.Drawing.Size(75, 23)
         Me.btnM3UEdit.TabIndex = 2
@@ -171,6 +174,7 @@ Partial Class M3UEdit
         '
         'splitContainerMain.Panel2
         '
+        Me.splitContainerMain.Panel2.Controls.Add(Me.btnSettings)
         Me.splitContainerMain.Panel2.Controls.Add(Me.lblVersion)
         Me.splitContainerMain.Panel2.Controls.Add(Me.btnExit)
         Me.splitContainerMain.Panel2.Controls.Add(Me.btnMoveDown)
@@ -186,30 +190,40 @@ Partial Class M3UEdit
         Me.splitContainerMain.Panel2.Controls.Add(Me.grpLength)
         Me.splitContainerMain.Panel2.Controls.Add(Me.grpFile)
         Me.splitContainerMain.Panel2.Controls.Add(Me.grpM3UFile)
-        Me.splitContainerMain.Panel2MinSize = 460
-        Me.splitContainerMain.Size = New System.Drawing.Size(928, 440)
+        Me.splitContainerMain.Panel2MinSize = 500
+        Me.splitContainerMain.Size = New System.Drawing.Size(959, 440)
         Me.splitContainerMain.SplitterDistance = 455
         Me.splitContainerMain.TabIndex = 0
+        '
+        'btnSettings
+        '
+        Me.btnSettings.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.btnSettings.Location = New System.Drawing.Point(427, 380)
+        Me.btnSettings.Name = "btnSettings"
+        Me.btnSettings.Size = New System.Drawing.Size(66, 23)
+        Me.btnSettings.TabIndex = 13
+        Me.btnSettings.Text = "Settings"
+        Me.btnSettings.UseVisualStyleBackColor = true
         '
         'lblVersion
         '
         Me.lblVersion.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.lblVersion.AutoSize = true
         Me.lblVersion.Font = New System.Drawing.Font("Microsoft Sans Serif", 6!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblVersion.Location = New System.Drawing.Point(448, 431)
+        Me.lblVersion.Location = New System.Drawing.Point(479, 431)
         Me.lblVersion.Name = "lblVersion"
         Me.lblVersion.Size = New System.Drawing.Size(21, 9)
-        Me.lblVersion.TabIndex = 14
+        Me.lblVersion.TabIndex = 15
         Me.lblVersion.Text = "1.0.0"
         '
         'btnExit
         '
         Me.btnExit.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnExit.Location = New System.Drawing.Point(427, 380)
+        Me.btnExit.Location = New System.Drawing.Point(427, 409)
         Me.btnExit.Name = "btnExit"
-        Me.btnExit.Size = New System.Drawing.Size(34, 52)
-        Me.btnExit.TabIndex = 13
+        Me.btnExit.Size = New System.Drawing.Size(66, 23)
+        Me.btnExit.TabIndex = 14
         Me.btnExit.Text = "Exit"
         Me.btnExit.UseVisualStyleBackColor = true
         '
@@ -269,7 +283,7 @@ Partial Class M3UEdit
         Me.grpCustomTimes.Controls.Add(Me.btnStartTimeConvert)
         Me.grpCustomTimes.Location = New System.Drawing.Point(10, 268)
         Me.grpCustomTimes.Name = "grpCustomTimes"
-        Me.grpCustomTimes.Size = New System.Drawing.Size(447, 106)
+        Me.grpCustomTimes.Size = New System.Drawing.Size(478, 106)
         Me.grpCustomTimes.TabIndex = 4
         Me.grpCustomTimes.TabStop = false
         Me.grpCustomTimes.Text = "Track Start/End Time"
@@ -299,7 +313,7 @@ Partial Class M3UEdit
         Me.numEndTime.Location = New System.Drawing.Point(53, 50)
         Me.numEndTime.Maximum = New Decimal(New Integer() {268435455, 1042612833, 542101086, 0})
         Me.numEndTime.Name = "numEndTime"
-        Me.numEndTime.Size = New System.Drawing.Size(307, 20)
+        Me.numEndTime.Size = New System.Drawing.Size(338, 20)
         Me.numEndTime.TabIndex = 4
         '
         'numStartTime
@@ -309,7 +323,7 @@ Partial Class M3UEdit
         Me.numStartTime.Location = New System.Drawing.Point(53, 21)
         Me.numStartTime.Maximum = New Decimal(New Integer() {268435455, 1042612833, 542101086, 0})
         Me.numStartTime.Name = "numStartTime"
-        Me.numStartTime.Size = New System.Drawing.Size(307, 20)
+        Me.numStartTime.Size = New System.Drawing.Size(338, 20)
         Me.numStartTime.TabIndex = 1
         '
         'chkEndTime
@@ -333,7 +347,7 @@ Partial Class M3UEdit
         'btnEndTimeConvert
         '
         Me.btnEndTimeConvert.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.btnEndTimeConvert.Location = New System.Drawing.Point(366, 48)
+        Me.btnEndTimeConvert.Location = New System.Drawing.Point(397, 48)
         Me.btnEndTimeConvert.Name = "btnEndTimeConvert"
         Me.btnEndTimeConvert.Size = New System.Drawing.Size(75, 23)
         Me.btnEndTimeConvert.TabIndex = 5
@@ -343,7 +357,7 @@ Partial Class M3UEdit
         'btnStartTimeConvert
         '
         Me.btnStartTimeConvert.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.btnStartTimeConvert.Location = New System.Drawing.Point(366, 19)
+        Me.btnStartTimeConvert.Location = New System.Drawing.Point(397, 19)
         Me.btnStartTimeConvert.Name = "btnStartTimeConvert"
         Me.btnStartTimeConvert.Size = New System.Drawing.Size(75, 23)
         Me.btnStartTimeConvert.TabIndex = 2
@@ -401,7 +415,7 @@ Partial Class M3UEdit
         Me.grpTrackInfo.Controls.Add(Me.txtTitle)
         Me.grpTrackInfo.Location = New System.Drawing.Point(10, 177)
         Me.grpTrackInfo.Name = "grpTrackInfo"
-        Me.grpTrackInfo.Size = New System.Drawing.Size(447, 85)
+        Me.grpTrackInfo.Size = New System.Drawing.Size(478, 85)
         Me.grpTrackInfo.TabIndex = 3
         Me.grpTrackInfo.TabStop = false
         Me.grpTrackInfo.Text = "Track Title:"
@@ -421,7 +435,7 @@ Partial Class M3UEdit
                         Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.txtArtist.Location = New System.Drawing.Point(6, 58)
         Me.txtArtist.Name = "txtArtist"
-        Me.txtArtist.Size = New System.Drawing.Size(435, 20)
+        Me.txtArtist.Size = New System.Drawing.Size(466, 20)
         Me.txtArtist.TabIndex = 2
         '
         'txtTitle
@@ -430,7 +444,7 @@ Partial Class M3UEdit
                         Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.txtTitle.Location = New System.Drawing.Point(6, 19)
         Me.txtTitle.Name = "txtTitle"
-        Me.txtTitle.Size = New System.Drawing.Size(435, 20)
+        Me.txtTitle.Size = New System.Drawing.Size(466, 20)
         Me.txtTitle.TabIndex = 0
         '
         'grpLength
@@ -442,7 +456,7 @@ Partial Class M3UEdit
         Me.grpLength.Controls.Add(Me.numLength)
         Me.grpLength.Location = New System.Drawing.Point(10, 122)
         Me.grpLength.Name = "grpLength"
-        Me.grpLength.Size = New System.Drawing.Size(447, 49)
+        Me.grpLength.Size = New System.Drawing.Size(478, 49)
         Me.grpLength.TabIndex = 2
         Me.grpLength.TabStop = false
         Me.grpLength.Text = "Track Length"
@@ -450,7 +464,7 @@ Partial Class M3UEdit
         'btnLengthConvert
         '
         Me.btnLengthConvert.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.btnLengthConvert.Location = New System.Drawing.Point(366, 19)
+        Me.btnLengthConvert.Location = New System.Drawing.Point(397, 19)
         Me.btnLengthConvert.Name = "btnLengthConvert"
         Me.btnLengthConvert.Size = New System.Drawing.Size(75, 23)
         Me.btnLengthConvert.TabIndex = 2
@@ -473,7 +487,7 @@ Partial Class M3UEdit
         Me.numLength.Location = New System.Drawing.Point(92, 21)
         Me.numLength.Maximum = New Decimal(New Integer() {268435455, 1042612833, 542101086, 0})
         Me.numLength.Name = "numLength"
-        Me.numLength.Size = New System.Drawing.Size(268, 20)
+        Me.numLength.Size = New System.Drawing.Size(299, 20)
         Me.numLength.TabIndex = 1
         '
         'grpFile
@@ -486,7 +500,7 @@ Partial Class M3UEdit
         Me.grpFile.Controls.Add(Me.btnFileSet)
         Me.grpFile.Location = New System.Drawing.Point(10, 67)
         Me.grpFile.Name = "grpFile"
-        Me.grpFile.Size = New System.Drawing.Size(447, 49)
+        Me.grpFile.Size = New System.Drawing.Size(478, 49)
         Me.grpFile.TabIndex = 1
         Me.grpFile.TabStop = false
         Me.grpFile.Text = "Track File"
@@ -513,13 +527,13 @@ Partial Class M3UEdit
                         Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.txtFile.Location = New System.Drawing.Point(6, 21)
         Me.txtFile.Name = "txtFile"
-        Me.txtFile.Size = New System.Drawing.Size(354, 20)
+        Me.txtFile.Size = New System.Drawing.Size(385, 20)
         Me.txtFile.TabIndex = 0
         '
         'btnFileSet
         '
         Me.btnFileSet.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.btnFileSet.Location = New System.Drawing.Point(366, 19)
+        Me.btnFileSet.Location = New System.Drawing.Point(397, 19)
         Me.btnFileSet.Name = "btnFileSet"
         Me.btnFileSet.Size = New System.Drawing.Size(75, 23)
         Me.btnFileSet.TabIndex = 1
@@ -535,7 +549,7 @@ Partial Class M3UEdit
         Me.grpM3UFile.Controls.Add(Me.btnM3UEdit)
         Me.grpM3UFile.Location = New System.Drawing.Point(10, 12)
         Me.grpM3UFile.Name = "grpM3UFile"
-        Me.grpM3UFile.Size = New System.Drawing.Size(447, 49)
+        Me.grpM3UFile.Size = New System.Drawing.Size(478, 49)
         Me.grpM3UFile.TabIndex = 0
         Me.grpM3UFile.TabStop = false
         Me.grpM3UFile.Text = "M3U File"
@@ -562,7 +576,7 @@ Partial Class M3UEdit
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnExit
-        Me.ClientSize = New System.Drawing.Size(928, 440)
+        Me.ClientSize = New System.Drawing.Size(959, 440)
         Me.Controls.Add(Me.splitContainerMain)
         Me.Icon = Global.M3UEdit.Resources.M3UEdit
         Me.Name = "M3UEdit"
@@ -587,6 +601,7 @@ Partial Class M3UEdit
         Me.grpM3UFile.PerformLayout
         Me.ResumeLayout(false)
     End Sub
+    Private WithEvents btnSettings As System.Windows.Forms.Button
     Private lblFileExistence As System.Windows.Forms.Label
     Private pbxFileExistence As System.Windows.Forms.PictureBox
     Private lblVersion As System.Windows.Forms.Label
