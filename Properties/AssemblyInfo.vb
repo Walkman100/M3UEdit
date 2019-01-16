@@ -13,7 +13,7 @@ Imports System.Runtime.InteropServices
 <assembly: AssemblyConfiguration("")>
 <assembly: AssemblyCompany("WalkmanOSS")>
 <assembly: AssemblyProduct("M3UEdit")>
-<assembly: AssemblyCopyright("FOSS from Walkman 2015-18")>
+<assembly: AssemblyCopyright("FOSS from Walkman 2018-19")>
 <assembly: AssemblyTrademark("")>
 <assembly: AssemblyCulture("")>
 

@@ -58,6 +58,7 @@ Public Partial Class M3UEdit
     
     Sub btnM3UBrowse_Click() Handles btnM3UBrowse.Click
         ofdSelectFile.FileName = txtM3UFile.Text
+        ofdSelectFile.Title = "Select file to open"
         
         If ofdSelectFile.ShowDialog() = DialogResult.OK Then
             txtM3UFile.ReadOnly = True
@@ -74,6 +75,7 @@ Public Partial Class M3UEdit
     Sub btnM3UBrowse_MouseUp(sender As Object, e As MouseEventArgs) Handles btnM3UBrowse.MouseUp
         If e.Button = MouseButtons.Right Then
             ofdSelectFile.FileName = ""
+            ofdSelectFile.Title = "Select file to append to current list"
             
             If ofdSelectFile.ShowDialog() = DialogResult.OK Then
                 txtM3UFile.ReadOnly = True
