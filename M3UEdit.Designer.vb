@@ -74,6 +74,7 @@ Partial Class M3UEdit
         Me.timerBrowseDelay = New System.Windows.Forms.Timer(Me.components)
         Me.ofdSelectFile = New System.Windows.Forms.OpenFileDialog()
         Me.sfdSaveAs = New System.Windows.Forms.SaveFileDialog()
+        Me.myToolTip = New System.Windows.Forms.ToolTip(Me.components)
         CType(Me.splitContainerMain,System.ComponentModel.ISupportInitialize).BeginInit
         Me.splitContainerMain.Panel1.SuspendLayout
         Me.splitContainerMain.Panel2.SuspendLayout
@@ -139,6 +140,8 @@ Partial Class M3UEdit
         Me.btnM3UBrowse.Size = New System.Drawing.Size(75, 23)
         Me.btnM3UBrowse.TabIndex = 0
         Me.btnM3UBrowse.Text = "Browse..."
+        Me.myToolTip.SetToolTip(Me.btnM3UBrowse, "Left click to browse for a playlist to Replace the current view with, Right click"& _ 
+                " to browse for a playlist to Append to the current view")
         Me.btnM3UBrowse.UseVisualStyleBackColor = true
         '
         'txtM3UFile
@@ -159,6 +162,8 @@ Partial Class M3UEdit
         Me.btnM3UEdit.Size = New System.Drawing.Size(75, 23)
         Me.btnM3UEdit.TabIndex = 2
         Me.btnM3UEdit.Text = "Edit"
+        Me.myToolTip.SetToolTip(Me.btnM3UEdit, "Allows to load a playlist from a specified path without opening the browse dialog"& _ 
+                "")
         Me.btnM3UEdit.UseVisualStyleBackColor = true
         '
         'splitContainerMain
@@ -203,6 +208,7 @@ Partial Class M3UEdit
         Me.btnSettings.Size = New System.Drawing.Size(66, 23)
         Me.btnSettings.TabIndex = 13
         Me.btnSettings.Text = "Settings"
+        Me.myToolTip.SetToolTip(Me.btnSettings, "Opens the settings window")
         Me.btnSettings.UseVisualStyleBackColor = true
         '
         'lblVersion
@@ -225,6 +231,7 @@ Partial Class M3UEdit
         Me.btnExit.Size = New System.Drawing.Size(66, 23)
         Me.btnExit.TabIndex = 14
         Me.btnExit.Text = "Exit"
+        Me.myToolTip.SetToolTip(Me.btnExit, "Exits the program")
         Me.btnExit.UseVisualStyleBackColor = true
         '
         'btnMoveDown
@@ -235,6 +242,9 @@ Partial Class M3UEdit
         Me.btnMoveDown.Size = New System.Drawing.Size(100, 23)
         Me.btnMoveDown.TabIndex = 6
         Me.btnMoveDown.Text = "Move Down"
+        Me.myToolTip.SetToolTip(Me.btnMoveDown, "Moves the currently selected track down. WARNING: attempting to move multiple tra"& _ 
+                "cks will only move the first track, and REPLACE ALL THE OTHER TRACKS with the fi"& _ 
+                "rst one")
         Me.btnMoveDown.UseVisualStyleBackColor = true
         '
         'btnMoveUp
@@ -245,6 +255,9 @@ Partial Class M3UEdit
         Me.btnMoveUp.Size = New System.Drawing.Size(100, 23)
         Me.btnMoveUp.TabIndex = 5
         Me.btnMoveUp.Text = "Move Up"
+        Me.myToolTip.SetToolTip(Me.btnMoveUp, "Moves the currently selected track up. WARNING: attempting to move multiple track"& _ 
+                "s will only move the first track, and REPLACE ALL THE OTHER TRACKS with the firs"& _ 
+                "t one")
         Me.btnMoveUp.UseVisualStyleBackColor = true
         '
         'btnRemove
@@ -255,6 +268,7 @@ Partial Class M3UEdit
         Me.btnRemove.Size = New System.Drawing.Size(100, 23)
         Me.btnRemove.TabIndex = 8
         Me.btnRemove.Text = "Remove Track(s)"
+        Me.myToolTip.SetToolTip(Me.btnRemove, "Removes all the selected tracks")
         Me.btnRemove.UseVisualStyleBackColor = true
         '
         'btnAdd
@@ -267,6 +281,7 @@ Partial Class M3UEdit
         Me.btnAdd.Size = New System.Drawing.Size(100, 23)
         Me.btnAdd.TabIndex = 7
         Me.btnAdd.Text = "Add Track"
+        Me.myToolTip.SetToolTip(Me.btnAdd, "Left click to add a new blank item, Right click to browse for items to add")
         Me.btnAdd.UseVisualStyleBackColor = true
         '
         'grpCustomTimes
@@ -295,6 +310,7 @@ Partial Class M3UEdit
         Me.btnEndTimeGet.Size = New System.Drawing.Size(172, 23)
         Me.btnEndTimeGet.TabIndex = 6
         Me.btnEndTimeGet.Text = "Get End Time from Track Length"
+        Me.myToolTip.SetToolTip(Me.btnEndTimeGet, "Sets the end time to Start Time + Track Length")
         Me.btnEndTimeGet.UseVisualStyleBackColor = true
         '
         'btnStartEndSetLength
@@ -304,6 +320,7 @@ Partial Class M3UEdit
         Me.btnStartEndSetLength.Size = New System.Drawing.Size(100, 23)
         Me.btnStartEndSetLength.TabIndex = 7
         Me.btnStartEndSetLength.Text = "Set Track Length"
+        Me.myToolTip.SetToolTip(Me.btnStartEndSetLength, "Sets the length in the Track Length section to End Time - Start Time")
         Me.btnStartEndSetLength.UseVisualStyleBackColor = true
         '
         'numEndTime
@@ -352,6 +369,7 @@ Partial Class M3UEdit
         Me.btnEndTimeConvert.Size = New System.Drawing.Size(75, 23)
         Me.btnEndTimeConvert.TabIndex = 5
         Me.btnEndTimeConvert.Text = "Convert..."
+        Me.myToolTip.SetToolTip(Me.btnEndTimeConvert, "Opens a window to convert HH:MM:SS to seconds")
         Me.btnEndTimeConvert.UseVisualStyleBackColor = true
         '
         'btnStartTimeConvert
@@ -362,6 +380,7 @@ Partial Class M3UEdit
         Me.btnStartTimeConvert.Size = New System.Drawing.Size(75, 23)
         Me.btnStartTimeConvert.TabIndex = 2
         Me.btnStartTimeConvert.Text = "Convert..."
+        Me.myToolTip.SetToolTip(Me.btnStartTimeConvert, "Opens a window to convert HH:MM:SS to seconds")
         Me.btnStartTimeConvert.UseVisualStyleBackColor = true
         '
         'btnTestSelected
@@ -372,6 +391,8 @@ Partial Class M3UEdit
         Me.btnTestSelected.Size = New System.Drawing.Size(100, 23)
         Me.btnTestSelected.TabIndex = 12
         Me.btnTestSelected.Text = "Test Selected"
+        Me.myToolTip.SetToolTip(Me.btnTestSelected, "Creates a temporary playlist to test the selected items with, opens it in the pla"& _ 
+                "yer selected in settings, and deletes it")
         Me.btnTestSelected.UseVisualStyleBackColor = true
         '
         'btnTest
@@ -382,6 +403,7 @@ Partial Class M3UEdit
         Me.btnTest.Size = New System.Drawing.Size(100, 23)
         Me.btnTest.TabIndex = 10
         Me.btnTest.Text = "Test"
+        Me.myToolTip.SetToolTip(Me.btnTest, "Opens the current playlist file in the player selected in Settings")
         Me.btnTest.UseVisualStyleBackColor = true
         '
         'btnSaveAs
@@ -393,6 +415,7 @@ Partial Class M3UEdit
         Me.btnSaveAs.Size = New System.Drawing.Size(100, 23)
         Me.btnSaveAs.TabIndex = 11
         Me.btnSaveAs.Text = "Save As..."
+        Me.myToolTip.SetToolTip(Me.btnSaveAs, "Saves the current file as a new file")
         Me.btnSaveAs.UseVisualStyleBackColor = true
         '
         'btnSave
@@ -404,6 +427,7 @@ Partial Class M3UEdit
         Me.btnSave.Size = New System.Drawing.Size(100, 23)
         Me.btnSave.TabIndex = 9
         Me.btnSave.Text = "Save"
+        Me.myToolTip.SetToolTip(Me.btnSave, "Saves the current playlist to the path specified in the M3U file section")
         Me.btnSave.UseVisualStyleBackColor = true
         '
         'grpTrackInfo
@@ -469,6 +493,7 @@ Partial Class M3UEdit
         Me.btnLengthConvert.Size = New System.Drawing.Size(75, 23)
         Me.btnLengthConvert.TabIndex = 2
         Me.btnLengthConvert.Text = "Convert..."
+        Me.myToolTip.SetToolTip(Me.btnLengthConvert, "Opens a window to convert HH:MM:SS to seconds")
         Me.btnLengthConvert.UseVisualStyleBackColor = true
         '
         'btnLengthAuto
@@ -478,6 +503,8 @@ Partial Class M3UEdit
         Me.btnLengthAuto.Size = New System.Drawing.Size(80, 23)
         Me.btnLengthAuto.TabIndex = 0
         Me.btnLengthAuto.Text = "Get From File"
+        Me.myToolTip.SetToolTip(Me.btnLengthAuto, "Attempts to get the length of the track from file, using NAudio. Usually accurate"& _ 
+                " for MP3 files.")
         Me.btnLengthAuto.UseVisualStyleBackColor = true
         '
         'numLength
@@ -504,6 +531,7 @@ Partial Class M3UEdit
         Me.grpFile.TabIndex = 1
         Me.grpFile.TabStop = false
         Me.grpFile.Text = "Track File"
+        Me.myToolTip.SetToolTip(Me.grpFile, "Opens a window to manage the file path")
         '
         'pbxFileExistence
         '
@@ -601,6 +629,7 @@ Partial Class M3UEdit
         Me.grpM3UFile.PerformLayout
         Me.ResumeLayout(false)
     End Sub
+    Private myToolTip As System.Windows.Forms.ToolTip
     Private WithEvents btnSettings As System.Windows.Forms.Button
     Private lblFileExistence As System.Windows.Forms.Label
     Private pbxFileExistence As System.Windows.Forms.PictureBox
