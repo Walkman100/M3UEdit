@@ -370,7 +370,7 @@ Partial Class Settings
     Private WithEvents btnTestSpecificVLCPlay As System.Windows.Forms.Button
     Private grpTestSpecific As System.Windows.Forms.GroupBox
     Private WithEvents btnDefaults As System.Windows.Forms.Button
-    Private btnCancel As System.Windows.Forms.Button
+    Private WithEvents btnCancel As System.Windows.Forms.Button
     Private WithEvents btnSave As System.Windows.Forms.Button
     Friend optSetPathNone As System.Windows.Forms.RadioButton
     Friend optSetPathAbsolute As System.Windows.Forms.RadioButton

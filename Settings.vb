@@ -53,6 +53,12 @@ Public Partial Class Settings
         SaveSettings()
     End Sub
     
+    Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
+        If File.Exists(configFilePath) Then
+            LoadSettings
+        End If
+    End Sub
+    
     Sub btnDefaults_Click(sender As Object, e As EventArgs) Handles btnDefaults.Click
         optTestDefault.Checked = True
         txtTestSpecificPath.Text = ""

@@ -566,6 +566,7 @@ Partial Class M3UEdit
         Me.btnFileSet.Size = New System.Drawing.Size(75, 23)
         Me.btnFileSet.TabIndex = 1
         Me.btnFileSet.Text = "Set..."
+        Me.myToolTip.SetToolTip(Me.btnFileSet, "Opens a window to manage the file path")
         Me.btnFileSet.UseVisualStyleBackColor = true
         '
         'grpM3UFile
