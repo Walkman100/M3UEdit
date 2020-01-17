@@ -663,6 +663,8 @@ Public Partial Class M3UEdit
                 Dim selected As ListViewItem = lstFiles.SelectedItems(0)
                 Dim selectedIndex As Integer = selected.Index
                 Dim totalItems As Integer = lstFiles.Items.Count
+                '  HACK(ish): see lstFiles_KeyOrMouseDown()
+                allowWrite = False
                 
                 lstFiles.BeginUpdate()
                 If selectedIndex = 0 Then
@@ -675,7 +677,9 @@ Public Partial Class M3UEdit
                 lstFiles.EndUpdate()
                 
                 PopulateEditSection()
+                allowWrite = True
             Catch ex As Exception
+                allowWrite = True
                 MsgBox("There was an error moving the item: " & ex.Message, MsgBoxStyle.Exclamation)
             End Try
         Else
@@ -690,6 +694,7 @@ Public Partial Class M3UEdit
                 Dim selected As ListViewItem = lstFiles.SelectedItems(0)
                 Dim selectedIndex As Integer = selected.Index
                 Dim totalItems As Integer = lstFiles.Items.Count
+                allowWrite = False
                 
                 lstFiles.BeginUpdate()
                 If selectedIndex = totalItems - 1 Then
@@ -702,7 +707,9 @@ Public Partial Class M3UEdit
                 lstFiles.EndUpdate()
                 
                 PopulateEditSection()
+                allowWrite = True
             Catch ex As Exception
+                allowWrite = True
                 MsgBox("There was an error moving the item: " & ex.Message, MsgBoxStyle.Exclamation)
             End Try
         Else
